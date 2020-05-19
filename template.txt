@@ -1,9 +1,11 @@
-<b>Config</b>
+<b>Basic</b>
 ------------------------
 Interval: <code>$interval$</code>
+Last Seen: <code>$last$</code>
 
 <b>System</b>
 ------------------------
 OS: <code>$dist$</code>
+Kernel: <code>$kernel$</code>
 Host Name: <code>$hostname$</code>
 Up Time: <code>$up_time$</code>

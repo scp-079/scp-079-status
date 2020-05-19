@@ -18,12 +18,13 @@
 
 import logging
 from distro import linux_distribution
+from platform import uname
 from socket import gethostname
 
 from psutil import boot_time
 
 from .. import glovar
-from .etc import get_now, get_time_str
+from .etc import get_now, get_readable_time, get_time_str
 
 # Enable logging
 logger = logging.getLogger(__name__)
@@ -80,16 +81,52 @@ def get_dist(text: str) -> str:
     return result
 
 
+def get_kernel(text: str) -> str:
+    # Get current kernel
+    result = text
+
+    try:
+        if "$kernel$" not in text:
+            return result
+
+        status = uname().release
+
+        result = result.replace("$kernel$", status)
+    except Exception as e:
+        logger.warning(f"Get kernel error: {e}", exc_info=True)
+
+    return result
+
+
+def get_last(text: str) -> str:
+    # Get last seen time
+    result = text
+
+    try:
+        if "$last$" not in text:
+            return result
+
+        status = get_readable_time(the_format=glovar.format_date)
+
+        result = result.replace("$last$", status)
+    except Exception as e:
+        logger.warning(f"Get last error: {e}", exc_info=True)
+
+    return result
+
+
 def get_status() -> str:
     # Get system status
     result = glovar.report
 
     try:
-        # Config
+        # Basic
         result = get_interval(result)
+        result = get_last(result)
 
         # System
         result = get_dist(result)
+        result = get_kernel(result)
         result = get_hostname(result)
         result = get_up_time(result)
     except Exception as e:
