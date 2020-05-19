@@ -4,6 +4,7 @@ This bot is used to check Linux server status.
 
 ## How to use
 
+- [Demo](https://t.me/SCP_079_CRITICAL)
 - Read [the document](https://scp-079.org/status/) to learn more
 - [README](https://scp-079.org/readme/) of the SCP-079 Project's demo bots
 - Discuss [group](https://t.me/SCP_079_CHAT)
