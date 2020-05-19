@@ -13,7 +13,7 @@ This bot is used to check Linux server status.
 
 - Python 3.6 or higher
 - pip: `pip install -r requirements.txt` 
-- or pip: `pip install -U APScheduler psutil pyrogram pyyaml tgcrypto`
+- or pip: `pip install -U APScheduler distro psutil pyrogram pyyaml tgcrypto`
 
 ## Files
 

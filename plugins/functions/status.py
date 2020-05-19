@@ -17,6 +17,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import logging
+from distro import linux_distribution
 from socket import gethostname
 
 from psutil import boot_time
@@ -62,6 +63,23 @@ def get_interval(text: str) -> str:
     return result
 
 
+def get_dist(text: str) -> str:
+    # Get dist
+    result = text
+
+    try:
+        if "$dist$" not in text:
+            return result
+
+        status = "-".join(d for d in linux_distribution())
+
+        result = result.replace("$dist$", status)
+    except Exception as e:
+        logger.warning(f"Get dist error: {e}", exc_info=True)
+
+    return result
+
+
 def get_status() -> str:
     # Get system status
     result = glovar.report
@@ -71,6 +89,7 @@ def get_status() -> str:
         result = get_interval(result)
 
         # System
+        result = get_dist(result)
         result = get_hostname(result)
         result = get_up_time(result)
     except Exception as e:

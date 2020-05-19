@@ -4,5 +4,6 @@ Interval: <code>$interval$</code>
 
 <b>System</b>
 ------------------------
+OS: <code>$dist$</code>
 Host Name: <code>$hostname$</code>
 Up Time: <code>$up_time$</code>
