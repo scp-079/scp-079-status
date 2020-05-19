@@ -1,0 +1,30 @@
+[pyrogram]
+api_id = [DATA EXPUNGED]
+api_hash = [DATA EXPUNGED]
+
+[plugins]
+root = plugins
+include =
+    handlers.command
+
+[proxy]
+enabled = False
+hostname = 127.0.0.1
+port = 1080
+
+[auth]
+creator_id = [DATA EXPUNGED]
+
+[basic]
+bot_token = [DATA EXPUNGED]
+prefix = /!！
+
+[channels]
+critical_channel_id = [DATA EXPUNGED]
+
+[custom]
+format_date = %Y%m%d%H%M%S
+format_time = %H:%M:%S
+
+[language]
+lang = cmn-Hans
