@@ -5,6 +5,7 @@ tmp/
 log
 config.ini
 *.session*
+report.txt
 
 # Below copied from https://github.com/github/gitignore/blob/master/Python.gitignore
 

@@ -68,6 +68,18 @@ def get_cpu_count_physical(text: str) -> str:
     return result
 
 
+def get_cpu_freq_current(text: str) -> str:
+    # Get CPU current frequency
+    result = text
+
+    try:
+        pass
+    except Exception as e:
+        logger.warning(f"Get CPU freq current error: {e}", exc_info=True)
+
+    return result
+
+
 def get_dist(text: str) -> str:
     # Get dist
     result = text
