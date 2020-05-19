@@ -29,7 +29,7 @@ error_already: 已存在发送过的消息
 error_none: 没有发送过的消息
 total_size: 总大小
 used: 已使用
-free: 可利用
+free: 空余
 percent: 使用占比
 
 # Symbol
