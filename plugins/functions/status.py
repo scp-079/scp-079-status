@@ -24,7 +24,7 @@ from socket import gethostname
 from psutil import boot_time, cpu_count, cpu_freq, cpu_percent
 
 from .. import glovar
-from .etc import get_now, get_readable_time, get_time_str
+from .etc import code, get_now, get_readable_time, get_time_str, lang
 
 # Enable logging
 logger = logging.getLogger(__name__)
@@ -106,7 +106,29 @@ def get_cpu_usage_total(text: str) -> str:
     return result
 
 
+def get_cpu_usage_per(text: str) -> str:
+    # Get CPU per core usage
+    result = text
 
+    try:
+        codename = "$cpu_percent_per$"
+
+        if codename not in text:
+            return result
+
+        status = ""
+
+        for i, percent in enumerate(cpu_percent(percpu=True, interval=1)):
+            status += "\t" * 4 + f"{lang('core')}\t{i + 1}{lang('colon')}{code(f'{percent}%')}\n"
+
+        if status:
+            status = status[:-1]
+
+        result = result.replace(codename, status)
+    except Exception as e:
+        logger.warning(f"Get cpu usage per error: {e}", exc_info=True)
+
+    return result
 
 
 def get_cpu_freq_max(text: str) -> str:
@@ -264,6 +286,7 @@ def get_status() -> str:
         result = get_cpu_freq_min(result)
         result = get_cpu_freq_current(result)
         result = get_cpu_usage_total(result)
+        result = get_cpu_usage_per(result)
     except Exception as e:
         logger.warning(f"Get status error: {e}", exc_info=True)
 
