@@ -30,7 +30,7 @@ error_none: 没有发送过的消息
 total_size: 总大小
 used: 已使用
 free: 空余
-percent: 使用占比
+percent: 占用比
 
 # Symbol
 colon: "："
