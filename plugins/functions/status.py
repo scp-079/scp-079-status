@@ -21,7 +21,7 @@ from distro import linux_distribution
 from platform import uname
 from socket import gethostname
 
-from psutil import boot_time
+from psutil import boot_time, cpu_count
 
 from .. import glovar
 from .etc import get_now, get_readable_time, get_time_str
@@ -30,12 +30,38 @@ from .etc import get_now, get_readable_time, get_time_str
 logger = logging.getLogger(__name__)
 
 
+def get_cpu_count_logical(text: str) -> str:
+    # Get logical CPU count
+    result = text
+
+    try:
+        codename = "$cpu_count_logical$"
+
+        if codename not in text:
+            return result
+
+        status = cpu_count(logical=True)
+
+        result = result.replace(codename, status)
+    except Exception as e:
+        logger.warning(f"Get cpu count logical error: {e}", exc_info=True)
+
+    return result
+
+
 def get_cpu_count_physical(text: str) -> str:
     # Get physical CPU count
     result = text
 
     try:
-        pass
+        codename = "$cpu_count_physical$"
+
+        if codename not in text:
+            return result
+
+        status = cpu_count(logical=False)
+
+        result = result.replace(codename, status)
     except Exception as e:
         logger.warning(f"Get cpu count physical error: {e}", exc_info=True)
 
@@ -47,12 +73,14 @@ def get_dist(text: str) -> str:
     result = text
 
     try:
-        if "$dist$" not in text:
+        codename = "$dist$"
+
+        if codename not in text:
             return result
 
         status = " ".join(d for d in linux_distribution()[:-1])
 
-        result = result.replace("$dist$", status)
+        result = result.replace(codename, status)
     except Exception as e:
         logger.warning(f"Get dist error: {e}", exc_info=True)
 
@@ -64,12 +92,14 @@ def get_hostname(text: str) -> str:
     result = text
 
     try:
-        if "$hostname$" not in text:
+        codename = "$hostname$"
+
+        if codename not in text:
             return result
 
         status = gethostname()
 
-        result = result.replace("$hostname$", status)
+        result = result.replace(codename, status)
     except Exception as e:
         logger.warning(f"Get hostname error: {e}", exc_info=True)
 
@@ -81,12 +111,14 @@ def get_interval(text: str) -> str:
     result = text
 
     try:
-        if "$interval$" not in text:
+        codename = "$interval$"
+
+        if codename not in text:
             return result
 
         status = str(glovar.interval)
 
-        result = result.replace("$interval$", status)
+        result = result.replace(codename, status)
     except Exception as e:
         logger.warning(f"Get interval error: {e}", exc_info=True)
 
@@ -98,12 +130,14 @@ def get_kernel(text: str) -> str:
     result = text
 
     try:
-        if "$kernel$" not in text:
+        codename = "$kernel$"
+
+        if codename not in text:
             return result
 
         status = uname().release
 
-        result = result.replace("$kernel$", status)
+        result = result.replace(codename, status)
     except Exception as e:
         logger.warning(f"Get kernel error: {e}", exc_info=True)
 
@@ -115,12 +149,14 @@ def get_last(text: str) -> str:
     result = text
 
     try:
-        if "$last$" not in text:
+        codename = "$last$"
+
+        if codename not in text:
             return result
 
         status = get_readable_time(the_format=glovar.format_date)
 
-        result = result.replace("$last$", status)
+        result = result.replace(codename, status)
     except Exception as e:
         logger.warning(f"Get last error: {e}", exc_info=True)
 
@@ -141,6 +177,10 @@ def get_status() -> str:
         result = get_kernel(result)
         result = get_hostname(result)
         result = get_up_time(result)
+
+        # CPU
+        result = get_cpu_count_physical(result)
+        result = get_cpu_count_logical(result)
     except Exception as e:
         logger.warning(f"Get status error: {e}", exc_info=True)
 
@@ -152,7 +192,9 @@ def get_up_time(text: str) -> str:
     result = text
 
     try:
-        if "$up_time$" not in text:
+        codename = "$up_time$"
+
+        if codename not in text:
             return result
 
         status = get_time_str(
@@ -160,7 +202,7 @@ def get_up_time(text: str) -> str:
             the_format=glovar.format_time
         )
 
-        result = result.replace("$up_time$", status)
+        result = result.replace(codename, status)
     except Exception as e:
         logger.warning(f"Get up time error: {e}", exc_info=True)
 

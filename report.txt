@@ -23,25 +23,25 @@ $cpu_percent_per$
 
 <b>Memory</b>
 ------------------------
-Total: $memory_total$
-Available: $memory_available$
-Used: $memory_used$
-Percentage: $memory_percent$
-SWAP Total: $swap_total$
-SWAP Free: $swap_free$
-SWAP Used: $swap_used$
-SWAP Percentage: $swap_percent$
+Total: <code>$memory_total$</code>
+Available: <code>$memory_available$</code>
+Used: <code>$memory_used$</code>
+Percentage: <code>$memory_percent$</code>
+SWAP Total: <code>$swap_total$</code>
+SWAP Free: <code>$swap_free$</code>
+SWAP Used: <code>$swap_used$</code>
+SWAP Percentage: <code>$swap_percent$</code>
 
 <b>Disk</b>
 ------------------------
-Total read: $disk_read$
-Total write: $disk_write$
+Total read: <code>$disk_read$</code>
+Total write: <code>$disk_write$</code>
 Partitions and Usage:
 $disk_usage$
 
 <b>Network</b>
 ------------------------
-Total Bytes Sent: $network_sent$
-Total Bytes Received: $network_received$
+Total Bytes Sent: <code>$network_sent$</code>
+Total Bytes Received: <code>$network_received$</code>
 Interfaces:
 $interfaces$
