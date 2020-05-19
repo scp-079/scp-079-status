@@ -23,7 +23,7 @@ from json import dumps
 from random import choice, uniform
 from string import ascii_letters, digits
 from threading import Thread, Timer
-from time import localtime, sleep, strftime, time
+from time import gmtime, localtime, sleep, strftime, time
 from typing import Any, Callable, Optional, Union
 
 from pyrogram import Message
@@ -159,15 +159,15 @@ def get_now() -> int:
     return result
 
 
-def get_readable_time(secs: int = 0) -> str:
+def get_readable_time(secs: int = 0, format_date: str = "%Y%m%d%H%M%S") -> str:
     # Get a readable time string
     result = ""
 
     try:
         if secs:
-            result = datetime.utcfromtimestamp(secs).strftime("%Y%m%d%H%M%S")
+            result = datetime.utcfromtimestamp(secs).strftime(format_date)
         else:
-            result = strftime("%Y%m%d%H%M%S", localtime())
+            result = strftime(format_date, localtime())
     except Exception as e:
         logger.warning(f"Get readable time error: {e}", exc_info=True)
 
@@ -190,6 +190,24 @@ def get_text(message: Message) -> str:
         result += the_text
     except Exception as e:
         logger.warning(f"Get text error: {e}", exc_info=True)
+
+    return result
+
+
+def get_time_str(secs: int, format_time: str = "%H:%M:%S") -> str:
+    # Get a time string
+    result = ""
+
+    try:
+        result = strftime(format_time, gmtime(secs))
+        days = secs // (60 * 60 * 24)
+
+        if not days:
+            return result
+
+        result = f"{days} {lang('days')} {result}"
+    except Exception as e:
+        logger.warning(f"Get time str error: {e}", exc_info=True)
 
     return result
 
