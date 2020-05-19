@@ -21,7 +21,7 @@ from distro import linux_distribution
 from platform import uname
 from socket import gethostname
 
-from psutil import boot_time, cpu_count, cpu_freq
+from psutil import boot_time, cpu_count, cpu_freq, cpu_percent
 
 from .. import glovar
 from .etc import get_now, get_readable_time, get_time_str
@@ -85,6 +85,28 @@ def get_cpu_freq_current(text: str) -> str:
         logger.warning(f"Get cpu freq current error: {e}", exc_info=True)
 
     return result
+
+
+def get_cpu_usage_total(text: str) -> str:
+    # Get CPU total usage
+    result = text
+
+    try:
+        codename = "$cpu_percent$"
+
+        if codename not in text:
+            return result
+
+        status = f"{cpu_percent()}%"
+
+        result = result.replace(codename, status)
+    except Exception as e:
+        logger.warning(f"Get cpu usage total error: {e}", exc_info=True)
+
+    return result
+
+
+
 
 
 def get_cpu_freq_max(text: str) -> str:
@@ -241,6 +263,7 @@ def get_status() -> str:
         result = get_cpu_freq_max(result)
         result = get_cpu_freq_min(result)
         result = get_cpu_freq_current(result)
+        result = get_cpu_usage_total(result)
     except Exception as e:
         logger.warning(f"Get status error: {e}", exc_info=True)
 
