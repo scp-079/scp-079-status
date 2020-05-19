@@ -18,6 +18,7 @@
 
 import logging
 from distro import linux_distribution
+from os import getloadavg
 from platform import uname
 from socket import gethostname
 
@@ -330,6 +331,25 @@ def get_last(text: str) -> str:
     return result
 
 
+def get_load(text: str) -> str:
+    # Get system average load
+    result = text
+
+    try:
+        codename = "$load$"
+
+        if codename not in text:
+            return result
+
+        status = " ".join(str(load) for load in getloadavg())
+
+        result = result.replace(codename, status)
+    except Exception as e:
+        logger.warning(f"Get load error: {e}", exc_info=True)
+
+    return result
+
+
 def get_mem_available(text: str) -> str:
     # Get available memory
     result = text
@@ -480,6 +500,7 @@ def get_status() -> str:
         result = get_up_time(result)
 
         # CPU
+        result = get_load(result)
         result = get_cpu_count_physical(result)
         result = get_cpu_count_logical(result)
         result = get_cpu_freq_max(result)

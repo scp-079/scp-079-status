@@ -12,6 +12,7 @@ Up Time: <code>$up_time$</code>
 
 <b>CPU</b>
 ------------------------
+Average Load: <code>$load$</code>
 CPU Physical: <code>$cpu_count_physical$</code>
 CPU Logical: <code>$cpu_count_logical$</code>
 Max Frequency: <code>$freq_max$</code>
