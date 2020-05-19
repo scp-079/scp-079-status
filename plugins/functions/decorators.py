@@ -21,6 +21,7 @@ from functools import wraps
 
 from pyrogram.errors import FloodWait
 
+from .. import glovar
 from .etc import thread, wait_flood
 
 # Enable logging
@@ -37,6 +38,11 @@ def retry(func):
                 result = func(*args, **kwargs)
             except FloodWait as e:
                 logger.warning(f"Sleep for {e.x} second(s)")
+
+                if glovar.extra < 2:
+                    glovar.extra += 1
+                    logger.warning(f"Increased extra waiting to {glovar.extra}")
+
                 wait_flood(e)
             except Exception as e:
                 logger.warning(f"Retry error: {e}", exc_info=True)

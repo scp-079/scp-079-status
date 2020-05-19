@@ -121,13 +121,15 @@ all_commands: List[str] = [
     "send"
 ]
 
+extra: int = 0
+
 locks: Dict[str, Lock] = {
     "edit": Lock()
 }
 
 sender: str = "STATUS"
 
-version: str = "0.0.2"
+version: str = "0.0.3"
 
 # Load data from TXT file
 

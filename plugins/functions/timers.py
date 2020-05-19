@@ -17,6 +17,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import logging
+from time import sleep
 
 from pyrogram import Client
 
@@ -31,9 +32,27 @@ from .telegram import edit_message_text, send_message
 logger = logging.getLogger(__name__)
 
 
+def interval_min_10() -> bool:
+    # Execute every 10 minutes
+    result = False
+
+    try:
+        if glovar.extra == 0:
+            return False
+
+        glovar.extra -= 1
+        logger.warning(f"Decreased extra waiting to {glovar.extra}")
+
+        result = True
+    except Exception as e:
+        logger.warning(f"Interval min 10 error: {e}", exc_info=True)
+
+    return result
+
+
 @threaded()
 def interval_sec_n(client: Client) -> bool:
-    # Execute every N minutes
+    # Execute every N seconds
     result = False
 
     if not glovar.locks["edit"].acquire(blocking=False):
@@ -42,6 +61,9 @@ def interval_sec_n(client: Client) -> bool:
     try:
         if not glovar.message_id:
             return False
+
+        if glovar.extra > 0:
+            sleep(glovar.extra)
 
         text = get_status()
 
