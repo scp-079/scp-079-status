@@ -21,7 +21,8 @@ from distro import linux_distribution
 from platform import uname
 from socket import gethostname
 
-from psutil import boot_time, cpu_count, cpu_freq, cpu_percent
+from psutil import boot_time, cpu_count, cpu_freq, cpu_percent, disk_partitions, disk_io_counters, net_if_addrs
+from psutil import net_io_counters, virtual_memory, swap_memory
 
 from .. import glovar
 from .etc import code, get_now, get_readable_time, get_time_str, lang
@@ -264,6 +265,102 @@ def get_last(text: str) -> str:
     return result
 
 
+def get_mem_available(text: str) -> str:
+    # Get available memory
+    result = text
+
+    try:
+        codename = "$memory_available$"
+
+        if codename not in text:
+            return result
+
+        status = str(get_size(virtual_memory().available))
+
+        result = result.replace(codename, status)
+    except Exception as e:
+        logger.warning(f"Get mem available error: {e}", exc_info=True)
+
+    return result
+
+
+def get_mem_percent(text: str) -> str:
+    # Get percent memory
+    result = text
+
+    try:
+        codename = "$memory_percent$"
+
+        if codename not in text:
+            return result
+
+        status = f"{virtual_memory().percent}%"
+
+        result = result.replace(codename, status)
+    except Exception as e:
+        logger.warning(f"Get mem percent error: {e}", exc_info=True)
+
+    return result
+
+
+def get_mem_total(text: str) -> str:
+    # Get total memory
+    result = text
+
+    try:
+        codename = "$memory_total$"
+
+        if codename not in text:
+            return result
+
+        status = str(get_size(virtual_memory().total))
+
+        result = result.replace(codename, status)
+    except Exception as e:
+        logger.warning(f"Get mem total error: {e}", exc_info=True)
+
+    return result
+
+
+def get_mem_used(text: str) -> str:
+    # Get used memory
+    result = text
+
+    try:
+        codename = "$memory_used$"
+
+        if codename not in text:
+            return result
+
+        status = str(get_size(virtual_memory().used))
+
+        result = result.replace(codename, status)
+    except Exception as e:
+        logger.warning(f"Get mem used error: {e}", exc_info=True)
+
+    return result
+
+
+def get_size(b: int, suffix: str = "B") -> str:
+    # Get size
+    result = ""
+
+    try:
+        factor = 1024
+
+        for unit in ["", "K", "M", "G", "T", "P"]:
+            if b < factor:
+                break
+
+            b /= factor
+
+        result = f"{b:.2f} {unit}{suffix}"
+    except Exception as e:
+        logger.warning(f"Get size error: {e}", exc_info=True)
+
+    return result
+
+
 def get_status() -> str:
     # Get system status
     result = glovar.report
@@ -287,6 +384,12 @@ def get_status() -> str:
         result = get_cpu_freq_current(result)
         result = get_cpu_usage_total(result)
         result = get_cpu_usage_per(result)
+
+        # Memory
+        result = get_mem_total(result)
+        result = get_mem_available(result)
+        result = get_mem_used(result)
+        result = get_mem_percent(result)
     except Exception as e:
         logger.warning(f"Get status error: {e}", exc_info=True)
 

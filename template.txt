@@ -28,7 +28,7 @@ Available: <code>$memory_available$</code>
 Used: <code>$memory_used$</code>
 Percentage: <code>$memory_percent$</code>
 SWAP Total: <code>$swap_total$</code>
-SWAP Free: <code>$swap_free$</code>
+SWAP Available: <code>$swap_available$</code>
 SWAP Used: <code>$swap_used$</code>
 SWAP Percentage: <code>$swap_percent$</code>
 
