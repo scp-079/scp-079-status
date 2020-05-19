@@ -9,3 +9,39 @@ OS: <code>$dist$</code>
 Kernel: <code>$kernel$</code>
 Host Name: <code>$hostname$</code>
 Up Time: <code>$up_time$</code>
+
+<b>CPU</b>
+------------------------
+CPU Physical: <code>$cpu_count_physical$</code>
+CPU Logical: <code>$cpu_count_logical$</code>
+Max Frequency: <code>$freq_max$</code>
+Min Frequency: <code>$freq_min$</code>
+Current Frequency: <code>$freq_current$</code>
+Total CPU Usage: <code>$cpu_percent$</code>
+CPU Usage Per Core:
+$cpu_percent_per$
+
+<b>Memory</b>
+------------------------
+Total: $memory_total$
+Available: $memory_available$
+Used: $memory_used$
+Percentage: $memory_percent$
+SWAP Total: $swap_total$
+SWAP Free: $swap_free$
+SWAP Used: $swap_used$
+SWAP Percentage: $swap_percent$
+
+<b>Disk</b>
+------------------------
+Total read: $disk_read$
+Total write: $disk_write$
+Partitions and Usage:
+$disk_usage$
+
+<b>Network</b>
+------------------------
+Total Bytes Sent: $network_sent$
+Total Bytes Received: $network_received$
+Interfaces:
+$interfaces$

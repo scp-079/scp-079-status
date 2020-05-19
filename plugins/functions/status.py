@@ -30,6 +30,35 @@ from .etc import get_now, get_readable_time, get_time_str
 logger = logging.getLogger(__name__)
 
 
+def get_cpu_count_physical(text: str) -> str:
+    # Get physical CPU count
+    result = text
+
+    try:
+        pass
+    except Exception as e:
+        logger.warning(f"Get cpu count physical error: {e}", exc_info=True)
+
+    return result
+
+
+def get_dist(text: str) -> str:
+    # Get dist
+    result = text
+
+    try:
+        if "$dist$" not in text:
+            return result
+
+        status = " ".join(d for d in linux_distribution()[:-1])
+
+        result = result.replace("$dist$", status)
+    except Exception as e:
+        logger.warning(f"Get dist error: {e}", exc_info=True)
+
+    return result
+
+
 def get_hostname(text: str) -> str:
     # Get the hostname
     result = text
@@ -60,23 +89,6 @@ def get_interval(text: str) -> str:
         result = result.replace("$interval$", status)
     except Exception as e:
         logger.warning(f"Get interval error: {e}", exc_info=True)
-
-    return result
-
-
-def get_dist(text: str) -> str:
-    # Get dist
-    result = text
-
-    try:
-        if "$dist$" not in text:
-            return result
-
-        status = " ".join(d for d in linux_distribution()[:-1])
-
-        result = result.replace("$dist$", status)
-    except Exception as e:
-        logger.warning(f"Get dist error: {e}", exc_info=True)
 
     return result
 
