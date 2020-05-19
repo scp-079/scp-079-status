@@ -1,0 +1,35 @@
+# Mandarin Chinese (Simplified)
+
+# Basic
+action: 执行操作
+description: 说明
+detail: 详情
+reason: 原因
+status_failed: 未执行
+status_succeeded: 成功执行
+
+# Command
+command_flood: 命令发送频繁，请稍后重试
+command_lack: 命令参数缺失
+command_para: 命令参数有误
+command_type: 命令类别有误
+command_usage: 用法有误
+
+# Record
+status: 状态
+
+# Special
+action_send: 发送状态消息
+action_new: 发送新的状态消息
+commands: 可用命令
+command_new: 重新发送一条状态消息，删除原有消息
+command_send: 发送一条状态消息到频道中
+error_already: 已存在发送过的消息
+error_none: 没有发送过的消息
+
+# Symbol
+colon: "："
+
+# Unit
+days: 天
+seconds: 秒

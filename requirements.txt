@@ -1,0 +1,10 @@
+APScheduler==3.6.3
+psutil==5.7.0
+pyaes==1.6.1
+Pyrogram==0.17.1
+PySocks==1.7.1
+pytz==2020.1
+PyYAML==5.3.1
+six==1.14.0
+TgCrypto==1.2.1
+tzlocal==2.1
