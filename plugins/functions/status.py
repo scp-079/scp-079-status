@@ -20,10 +20,28 @@ import logging
 
 from psutil import boot_time
 
-from .etc import get_now
+from .. import glovar
+from .etc import get_now, get_time_str
 
 # Enable logging
 logger = logging.getLogger(__name__)
+
+
+def get_interval(text: str) -> str:
+    # Get update interval
+    result = text
+
+    try:
+        if "$interval$" not in text:
+            return result
+
+        status = str(glovar.interval)
+
+        result = result.replace("$interval$", status)
+    except Exception as e:
+        logger.warning(f"Get interval error: {e}", exc_info=True)
+
+    return result
 
 
 def get_status() -> str:
@@ -35,7 +53,10 @@ def get_status() -> str:
         with open("report.txt") as f:
             result = f.read()
 
-        # Boot
+        # Config
+        result = get_interval(result)
+
+        # System
         result = get_up_time(result)
     except Exception as e:
         logger.warning(f"Get status error: {e}", exc_info=True)
@@ -48,11 +69,15 @@ def get_up_time(text: str) -> str:
     result = text
 
     try:
-        if "$up_time" not in text:
+        if "$up_time$" not in text:
             return result
 
-        status = str(get_now() - int(boot_time()))
-        result = result.replace("$up_time", status)
+        status = get_time_str(
+            secs=get_now() - boot_time(),
+            the_format=glovar.format_time
+        )
+
+        result = result.replace("$up_time$", status)
     except Exception as e:
         logger.warning(f"Get up time error: {e}", exc_info=True)
 

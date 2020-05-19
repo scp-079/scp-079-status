@@ -159,15 +159,15 @@ def get_now() -> int:
     return result
 
 
-def get_readable_time(secs: int = 0, format_date: str = "%Y%m%d%H%M%S") -> str:
+def get_readable_time(secs: int = 0, the_format: str = "%Y%m%d%H%M%S") -> str:
     # Get a readable time string
     result = ""
 
     try:
         if secs:
-            result = datetime.utcfromtimestamp(secs).strftime(format_date)
+            result = datetime.utcfromtimestamp(secs).strftime(the_format)
         else:
-            result = strftime(format_date, localtime())
+            result = strftime(the_format, localtime())
     except Exception as e:
         logger.warning(f"Get readable time error: {e}", exc_info=True)
 
@@ -194,12 +194,12 @@ def get_text(message: Message) -> str:
     return result
 
 
-def get_time_str(secs: int, format_time: str = "%H:%M:%S") -> str:
+def get_time_str(secs: int, the_format: str = "%H:%M:%S") -> str:
     # Get a time string
     result = ""
 
     try:
-        result = strftime(format_time, gmtime(secs))
+        result = strftime(the_format, gmtime(secs))
         days = secs // (60 * 60 * 24)
 
         if not days:
