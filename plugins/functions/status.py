@@ -17,6 +17,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import logging
+from socket import gethostname
 
 from psutil import boot_time
 
@@ -25,6 +26,23 @@ from .etc import get_now, get_time_str
 
 # Enable logging
 logger = logging.getLogger(__name__)
+
+
+def get_hostname(text: str) -> str:
+    # Get the hostname
+    result = text
+
+    try:
+        if "$hostname$" not in text:
+            return result
+
+        status = gethostname()
+
+        result = result.replace("$hostname$", status)
+    except Exception as e:
+        logger.warning(f"Get hostname error: {e}", exc_info=True)
+
+    return result
 
 
 def get_interval(text: str) -> str:
@@ -57,6 +75,7 @@ def get_status() -> str:
         result = get_interval(result)
 
         # System
+        result = get_hostname(result)
         result = get_up_time(result)
     except Exception as e:
         logger.warning(f"Get status error: {e}", exc_info=True)

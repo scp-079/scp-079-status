@@ -1,5 +1,8 @@
 <b>Config</b>
-Interval: $interval$
+------------------------
+Interval: <code>$interval$</code>
 
 <b>System</b>
-Up Time: $up_time$
+------------------------
+Host Name: <code>$hostname$</code>
+Up Time: <code>$up_time$</code>
