@@ -200,7 +200,7 @@ def get_time_str(secs: int, the_format: str = "%H:%M:%S") -> str:
 
     try:
         result = strftime(the_format, gmtime(secs))
-        days = secs // (60 * 60 * 24)
+        days = int(secs // (60 * 60 * 24))
 
         if not days:
             return result
