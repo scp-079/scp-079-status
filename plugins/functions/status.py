@@ -78,7 +78,7 @@ def get_cpu_freq_current(text: str) -> str:
         if codename not in text:
             return result
 
-        status = f"{cpu_freq().current:.2f}Mhz"
+        status = f"{cpu_freq().current:.2f} Mhz"
 
         result = result.replace(codename, status)
     except Exception as e:
@@ -97,7 +97,7 @@ def get_cpu_freq_max(text: str) -> str:
         if codename not in text:
             return result
 
-        status = f"{cpu_freq().max:.2f}Mhz"
+        status = f"{cpu_freq().max:.0f} Mhz"
 
         result = result.replace(codename, status)
     except Exception as e:
@@ -116,7 +116,7 @@ def get_cpu_freq_min(text: str) -> str:
         if codename not in text:
             return result
 
-        status = f"{cpu_freq().min:.2f}Mhz"
+        status = f"{cpu_freq().min:.0f} Mhz"
 
         result = result.replace(codename, status)
     except Exception as e:
