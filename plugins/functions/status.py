@@ -390,8 +390,88 @@ def get_status() -> str:
         result = get_mem_available(result)
         result = get_mem_used(result)
         result = get_mem_percent(result)
+        result = get_swap_total(result)
+        result = get_swap_free(result)
+        result = get_swap_used(result)
+        result = get_swap_percent(result)
     except Exception as e:
         logger.warning(f"Get status error: {e}", exc_info=True)
+
+    return result
+
+
+def get_swap_free(text: str) -> str:
+    # Get free memory
+    result = text
+
+    try:
+        codename = "$swap_free$"
+
+        if codename not in text:
+            return result
+
+        status = str(get_size(swap_memory().free))
+
+        result = result.replace(codename, status)
+    except Exception as e:
+        logger.warning(f"Get swap free error: {e}", exc_info=True)
+
+    return result
+
+
+def get_swap_percent(text: str) -> str:
+    # Get percent memory
+    result = text
+
+    try:
+        codename = "$swap_percent$"
+
+        if codename not in text:
+            return result
+
+        status = f"{swap_memory().percent}%"
+
+        result = result.replace(codename, status)
+    except Exception as e:
+        logger.warning(f"Get swap percent error: {e}", exc_info=True)
+
+    return result
+
+
+def get_swap_total(text: str) -> str:
+    # Get total memory
+    result = text
+
+    try:
+        codename = "$swap_total$"
+
+        if codename not in text:
+            return result
+
+        status = str(get_size(swap_memory().total))
+
+        result = result.replace(codename, status)
+    except Exception as e:
+        logger.warning(f"Get swap total error: {e}", exc_info=True)
+
+    return result
+
+
+def get_swap_used(text: str) -> str:
+    # Get used memory
+    result = text
+
+    try:
+        codename = "$swap_used$"
+
+        if codename not in text:
+            return result
+
+        status = str(get_size(swap_memory().used))
+
+        result = result.replace(codename, status)
+    except Exception as e:
+        logger.warning(f"Get swap used error: {e}", exc_info=True)
 
     return result
 
