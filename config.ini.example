@@ -25,7 +25,7 @@ critical_channel_id = [DATA EXPUNGED]
 [custom]
 format_date = %Y/%m/%d %H:%M:%S
 format_time = %H:%M:%S
-interval = 5
+interval = 3
 
 [language]
 lang = cmn-Hans
