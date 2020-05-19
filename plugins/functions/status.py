@@ -21,7 +21,7 @@ from distro import linux_distribution
 from platform import uname
 from socket import gethostname
 
-from psutil import boot_time, cpu_count, cpu_freq, cpu_percent, disk_partitions, disk_io_counters, net_if_addrs
+from psutil import boot_time, cpu_count, cpu_freq, cpu_percent, disk_partitions, disk_io_counters, disk_usage, net_if_addrs
 from psutil import net_io_counters, virtual_memory, swap_memory
 
 from .. import glovar
@@ -170,6 +170,71 @@ def get_cpu_freq_min(text: str) -> str:
     return result
 
 
+def get_disk_read(text: str) -> str:
+    # Get disk read
+    result = text
+
+    try:
+        codename = "$disk_read$"
+
+        if codename not in text:
+            return result
+
+        status = get_size(disk_io_counters().read_bytes)
+
+        result = result.replace(codename, status)
+    except Exception as e:
+        logger.warning(f"Get disk read error: {e}", exc_info=True)
+
+    return result
+
+
+def get_disk_usage(text: str) -> str:
+    # Get disk usage
+    result = text
+
+    try:
+        codename = "$disk_usage$"
+
+        if codename not in text:
+            return result
+
+        try:
+            usage = disk_usage("/")
+        except PermissionError:
+            return result
+
+        status = (f"{lang('total_size')}{lang('colon')}{code(get_size(usage.total))}\n"
+                  f"{lang('used')}{lang('colon')}{code(get_size(usage.used))}\n"
+                  f"{lang('free')}{lang('colon')}{code(get_size(usage.free))}\n"
+                  f"{lang('percent')}{lang('colon')}{code(f'{usage.percent}%')}")
+
+        result = result.replace(codename, status)
+    except Exception as e:
+        logger.warning(f"Get disk usage error: {e}", exc_info=True)
+
+    return result
+
+
+def get_disk_write(text: str) -> str:
+    # Get disk write
+    result = text
+
+    try:
+        codename = "$disk_write$"
+
+        if codename not in text:
+            return result
+
+        status = get_size(disk_io_counters().write_bytes)
+
+        result = result.replace(codename, status)
+    except Exception as e:
+        logger.warning(f"Get disk usage error: {e}", exc_info=True)
+
+    return result
+
+
 def get_dist(text: str) -> str:
     # Get dist
     result = text
@@ -275,7 +340,7 @@ def get_mem_available(text: str) -> str:
         if codename not in text:
             return result
 
-        status = str(get_size(virtual_memory().available))
+        status = get_size(virtual_memory().available)
 
         result = result.replace(codename, status)
     except Exception as e:
@@ -313,7 +378,7 @@ def get_mem_total(text: str) -> str:
         if codename not in text:
             return result
 
-        status = str(get_size(virtual_memory().total))
+        status = get_size(virtual_memory().total)
 
         result = result.replace(codename, status)
     except Exception as e:
@@ -332,11 +397,49 @@ def get_mem_used(text: str) -> str:
         if codename not in text:
             return result
 
-        status = str(get_size(virtual_memory().used))
+        status = get_size(virtual_memory().used)
 
         result = result.replace(codename, status)
     except Exception as e:
         logger.warning(f"Get mem used error: {e}", exc_info=True)
+
+    return result
+
+
+def get_network_received(text: str) -> str:
+    # Get network received bytes
+    result = text
+
+    try:
+        codename = "$network_received$"
+
+        if codename not in text:
+            return result
+
+        status = get_size(net_io_counters().bytes_recv)
+
+        result = result.replace(codename, status)
+    except Exception as e:
+        logger.warning(f"Get network received error: {e}", exc_info=True)
+
+    return result
+
+
+def get_network_sent(text: str) -> str:
+    # Get network sent bytes
+    result = text
+
+    try:
+        codename = "$network_sent$"
+
+        if codename not in text:
+            return result
+
+        status = get_size(net_io_counters().bytes_sent)
+
+        result = result.replace(codename, status)
+    except Exception as e:
+        logger.warning(f"Get network sent error: {e}", exc_info=True)
 
     return result
 
@@ -394,6 +497,18 @@ def get_status() -> str:
         result = get_swap_free(result)
         result = get_swap_used(result)
         result = get_swap_percent(result)
+
+        # Disk
+        result = get_disk_read(result)
+        result = get_disk_write(result)
+        result = get_disk_usage(result)
+
+        # Network
+        result = get_network_sent(result)
+        result = get_network_received(result)
+
+        # Strip
+        result = result.strip()
     except Exception as e:
         logger.warning(f"Get status error: {e}", exc_info=True)
 
@@ -410,7 +525,7 @@ def get_swap_free(text: str) -> str:
         if codename not in text:
             return result
 
-        status = str(get_size(swap_memory().free))
+        status = get_size(swap_memory().free)
 
         result = result.replace(codename, status)
     except Exception as e:
@@ -448,7 +563,7 @@ def get_swap_total(text: str) -> str:
         if codename not in text:
             return result
 
-        status = str(get_size(swap_memory().total))
+        status = get_size(swap_memory().total)
 
         result = result.replace(codename, status)
     except Exception as e:
@@ -467,7 +582,7 @@ def get_swap_used(text: str) -> str:
         if codename not in text:
             return result
 
-        status = str(get_size(swap_memory().used))
+        status = get_size(swap_memory().used)
 
         result = result.replace(codename, status)
     except Exception as e:
