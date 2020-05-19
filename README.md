@@ -39,6 +39,7 @@ This bot is used to check Linux server status.
 - `main.py` : Start here
 - `README.md` : This file
 - `requirements.txt` : Managed by pip
+- `template.txt` -> `report.txt` : Report template
 
 ## Contribute
 
