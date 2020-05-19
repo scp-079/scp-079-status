@@ -21,8 +21,8 @@ from distro import linux_distribution
 from platform import uname
 from socket import gethostname
 
-from psutil import boot_time, cpu_count, cpu_freq, cpu_percent, disk_partitions, disk_io_counters, disk_usage, net_if_addrs
-from psutil import net_io_counters, virtual_memory, swap_memory
+from psutil import boot_time, cpu_count, cpu_freq, cpu_percent, disk_io_counters, disk_usage, net_io_counters
+from psutil import virtual_memory, swap_memory
 
 from .. import glovar
 from .etc import code, get_now, get_readable_time, get_time_str, lang
