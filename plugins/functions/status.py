@@ -111,7 +111,7 @@ def get_cpu_freq_min(text: str) -> str:
     result = text
 
     try:
-        codename = "$freq_max$"
+        codename = "$freq_min$"
 
         if codename not in text:
             return result
