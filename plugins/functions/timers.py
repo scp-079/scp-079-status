@@ -21,6 +21,7 @@ import logging
 from pyrogram import Client
 
 from .. import glovar
+from .decorators import threaded
 from .file import save
 from .group import delete_message
 from .status import get_status
@@ -30,6 +31,7 @@ from .telegram import edit_message_text, send_message
 logger = logging.getLogger(__name__)
 
 
+@threaded()
 def interval_sec_n(client: Client) -> bool:
     # Execute every N minutes
     result = False
