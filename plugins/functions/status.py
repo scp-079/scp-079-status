@@ -40,7 +40,7 @@ def get_cpu_count_logical(text: str) -> str:
         if codename not in text:
             return result
 
-        status = cpu_count(logical=True)
+        status = str(cpu_count(logical=True))
 
         result = result.replace(codename, status)
     except Exception as e:
@@ -59,7 +59,7 @@ def get_cpu_count_physical(text: str) -> str:
         if codename not in text:
             return result
 
-        status = cpu_count(logical=False)
+        status = str(cpu_count(logical=False))
 
         result = result.replace(codename, status)
     except Exception as e:
