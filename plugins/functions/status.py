@@ -64,13 +64,9 @@ def get_interval(text: str) -> str:
 
 def get_status() -> str:
     # Get system status
-    result = ""
+    result = glovar.report
 
     try:
-        # Read the report template
-        with open("report.txt") as f:
-            result = f.read()
-
         # Config
         result = get_interval(result)
 

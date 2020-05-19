@@ -129,6 +129,11 @@ sender: str = "STATUS"
 
 version: str = "0.0.1"
 
+# Load data from TXT file
+
+with open("report.txt") as f:
+    report = f.read()
+
 # Load data from pickle
 
 # Init dir
