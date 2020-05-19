@@ -71,7 +71,7 @@ def get_dist(text: str) -> str:
         if "$dist$" not in text:
             return result
 
-        status = "-".join(d for d in linux_distribution())
+        status = " ".join(d for d in linux_distribution()[:-1])
 
         result = result.replace("$dist$", status)
     except Exception as e:
