@@ -129,7 +129,7 @@ locks: Dict[str, Lock] = {
 
 sender: str = "STATUS"
 
-version: str = "0.0.4"
+version: str = "0.0.5"
 
 # Load data from TXT file
 

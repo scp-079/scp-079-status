@@ -40,6 +40,9 @@ def interval_min_10() -> bool:
         if glovar.extra == 0:
             return False
 
+        if glovar.interval < 3:
+            return False
+
         glovar.extra -= 1
         logger.warning(f"Decreased extra waiting to {glovar.extra}")
 
