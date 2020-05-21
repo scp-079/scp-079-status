@@ -37,10 +37,12 @@ app = Client(
 )
 app.start()
 
+# Start update
+interval_sec_n(app)
+
 # Timer
-scheduler = BackgroundScheduler(job_defaults={"max_instances": 3, "misfire_grace_time": 60})
+scheduler = BackgroundScheduler(job_defaults={"misfire_grace_time": 60})
 scheduler.add_job(interval_min_10, "interval", minutes=10)
-scheduler.add_job(interval_sec_n, "interval", [app], seconds=glovar.interval)
 scheduler.start()
 
 # Hold

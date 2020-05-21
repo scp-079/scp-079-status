@@ -22,7 +22,7 @@ from time import sleep
 from pyrogram import Client
 
 from .. import glovar
-from .decorators import threaded
+from .etc import delay
 from .file import save
 from .group import delete_message
 from .status import get_status
@@ -53,7 +53,6 @@ def interval_min_10() -> bool:
     return result
 
 
-@threaded()
 def interval_sec_n(client: Client) -> bool:
     # Execute every N seconds
     result = False
@@ -98,5 +97,6 @@ def interval_sec_n(client: Client) -> bool:
         logger.warning(f"Interval sec n error: {e}", exc_info=True)
     finally:
         glovar.locks["edit"].release()
+        delay(glovar.interval, interval_sec_n, [client])
 
     return result

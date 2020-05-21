@@ -24,12 +24,31 @@ from socket import gethostname
 
 from psutil import boot_time, cpu_count, cpu_freq, cpu_percent, disk_io_counters, disk_usage, net_io_counters
 from psutil import virtual_memory, swap_memory
+from pyrogram.errors import FloodWait
 
 from .. import glovar
 from .etc import code, get_now, get_readable_time, get_time_str, lang
 
 # Enable logging
 logger = logging.getLogger(__name__)
+
+
+def add_extra(e: FloodWait) -> bool:
+    # Add extra waiting time
+    result = False
+
+    try:
+        logger.warning(f"Sleep for {e.x} second(s)")
+
+        if glovar.extra >= 2:
+            return False
+
+        glovar.extra += 0.4
+        logger.warning(f"Increased extra waiting to {glovar.extra}")
+    except Exception as e:
+        logger.warning(f"Add extra error: {e}", exc_info=True)
+
+    return result
 
 
 def get_cpu_count_logical(text: str) -> str:
