@@ -57,18 +57,18 @@ def interval_sec_n(client: Client) -> bool:
     # Execute every N seconds
     result = False
 
+    if glovar.extra > 0:
+        sleep(glovar.extra)
+
+    delay(glovar.interval, interval_sec_n, [client])
+
+    if not glovar.message_id:
+        return False
+
     if not glovar.locks["edit"].acquire(blocking=False):
         return False
 
     try:
-        if not glovar.message_id:
-            return False
-
-        if glovar.extra > 0:
-            sleep(glovar.extra)
-
-        delay(glovar.interval, interval_sec_n, [client])
-
         text = get_status()
 
         result = edit_message_text(
