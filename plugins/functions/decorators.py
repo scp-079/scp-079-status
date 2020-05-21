@@ -40,7 +40,7 @@ def retry(func):
                 logger.warning(f"Sleep for {e.x} second(s)")
 
                 if glovar.extra < 2:
-                    glovar.extra += 0.1
+                    glovar.extra += 0.4
                     logger.warning(f"Increased extra waiting to {glovar.extra}")
 
                 wait_flood(e)
