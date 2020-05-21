@@ -20,6 +20,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import logging
+from time import sleep
 
 from apscheduler.schedulers.background import BackgroundScheduler
 from pyrogram import Client
@@ -38,6 +39,7 @@ app = Client(
 app.start()
 
 # Start update
+sleep(glovar.interval)
 interval_sec_n(app)
 
 # Timer
