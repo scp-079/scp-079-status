@@ -67,6 +67,8 @@ def interval_sec_n(client: Client) -> bool:
         if glovar.extra > 0:
             sleep(glovar.extra)
 
+        delay(glovar.interval, interval_sec_n, [client])
+
         text = get_status()
 
         result = edit_message_text(
@@ -97,6 +99,5 @@ def interval_sec_n(client: Client) -> bool:
         logger.warning(f"Interval sec n error: {e}", exc_info=True)
     finally:
         glovar.locks["edit"].release()
-        delay(glovar.interval, interval_sec_n, [client])
 
     return result
