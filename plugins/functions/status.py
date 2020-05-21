@@ -303,7 +303,10 @@ def get_interval(text: str) -> str:
         if codename not in text:
             return result
 
-        status = str(glovar.interval)
+        if glovar.extra > 0:
+            status = f"{glovar.interval + glovar.extra:.1f} {lang('seconds')}"
+        else:
+            status = f"{glovar.interval} {lang('seconds')}"
 
         result = result.replace(codename, status)
     except Exception as e:
