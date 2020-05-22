@@ -1,0 +1,40 @@
+# English
+
+# Basic
+action: Action
+description: Description
+detail: Detail
+reason: Reason
+status_failed: Failed
+status_succeeded: Succeeded
+
+# Command
+command_flood: Frequently sent Commands, please try again later
+command_lack: Lack of Parameter
+command_para: Incorrect Command Parameter
+command_type: Incorrect Command Type
+command_usage: Incorrect Usage
+
+# Record
+status: Status
+
+# Special
+action_send: Send status messages
+action_new: Send new status messages
+commands: Avalaible commands
+command_new: Resend a status message and delete the current
+command_send: Send a status message to channel
+core: Core
+error_already: Already exist sent messages
+error_none: No sent messages
+total_size: Total size
+used: Used
+free: Free
+percent: Percentage
+
+# Symbol
+colon: ": "
+
+# Unit
+days: day(s)
+seconds: s

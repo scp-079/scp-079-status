@@ -25,8 +25,8 @@ commands: 可用命令
 command_new: 重新发送一条状态消息，删除原有消息
 command_send: 发送一条状态消息到频道中
 core: 核心
-error_already: 已存在发送过的消息
-error_none: 没有发送过的消息
+error_already: 存在已发送的消息
+error_none: 没有已发送的消息
 total_size: 总大小
 used: 已使用
 free: 空余
