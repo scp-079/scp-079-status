@@ -44,6 +44,7 @@ def add_extra(e: FloodWait) -> bool:
             return False
 
         glovar.extra += 0.4
+        glovar.extra = round(glovar.extra, 1)
         logger.warning(f"Increased extra waiting to {glovar.extra}")
     except Exception as e:
         logger.warning(f"Add extra error: {e}", exc_info=True)
