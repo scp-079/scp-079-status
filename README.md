@@ -19,6 +19,7 @@ This bot is used to check Linux server status.
 
 - languages
    - `cmn-Hans.yml` : Mandarin Chinese (Simplified)
+   - `en.yml` : English
 - plugins
     - functions
         - `command.py` : Functions about command
