@@ -107,7 +107,7 @@ if (False
 lang_dict: dict = {}
 
 try:
-    with open(f"languages/{lang}.yml", "r") as f:
+    with open(f"languages/{lang}.yml", "r", encoding="utf-8") as f:
         lang_dict = safe_load(f)
 except Exception as e:
     logger.critical(f"Reading language YAML file failed: {e}", exc_info=True)
@@ -133,7 +133,7 @@ version: str = "0.0.7"
 
 # Load data from TXT file
 
-with open("report.txt") as f:
+with open("report.txt", encoding="utf-8") as f:
     report = f.read()
 
 # Load data from pickle
