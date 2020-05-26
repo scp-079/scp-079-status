@@ -27,6 +27,7 @@ command_send: Send a status message to channel
 core: Core
 error_already: Already exist sent messages
 error_none: No sent messages
+error_send: Sending failed
 total_size: Total size
 used: Used
 free: Free

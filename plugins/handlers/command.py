@@ -84,7 +84,7 @@ def new(client: Client, message: Message) -> bool:
         result = send_message(client, glovar.critical_channel_id, text, mid)
 
         if not result:
-            return False
+            return command_error(client, message, lang("action_send"), lang("error_send"))
 
         # Update the message id
         glovar.message_id = result.message_id
@@ -128,7 +128,7 @@ def send(client: Client, message: Message) -> bool:
         result = send_message(client, glovar.critical_channel_id, text, mid)
 
         if not result:
-            return False
+            return command_error(client, message, lang("action_send"), lang("error_send"))
 
         # Update the message id
         glovar.message_id = result.message_id

@@ -27,6 +27,7 @@ command_send: 发送一条状态消息到频道中
 core: 核心
 error_already: 存在已发送的消息
 error_none: 没有已发送的消息
+error_send: 发送消息失败
 total_size: 总大小
 used: 已使用
 free: 空余
