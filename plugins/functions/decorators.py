@@ -22,7 +22,6 @@ from functools import wraps
 from pyrogram.errors import FloodWait
 
 from .etc import thread, wait_flood
-from .status import add_extra
 
 # Enable logging
 logger = logging.getLogger(__name__)
@@ -37,7 +36,6 @@ def retry(func):
             try:
                 result = func(*args, **kwargs)
             except FloodWait as e:
-                add_extra(e)
                 wait_flood(e)
             except Exception as e:
                 logger.warning(f"Retry error: {e}", exc_info=True)

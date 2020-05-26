@@ -24,6 +24,7 @@ from pyrogram.errors import ChatAdminRequired, ButtonDataInvalid, ChannelInvalid
 from pyrogram.errors import MessageDeleteForbidden, MessageNotModified, PeerIdInvalid
 
 from .decorators import retry
+from .status import add_extra
 
 # Enable logging
 logger = logging.getLogger(__name__)
@@ -84,6 +85,7 @@ def edit_message_text(client: Client, cid: int, mid: int, text: str,
             reply_markup=markup
         )
     except FloodWait as e:
+        add_extra(e)
         raise e
     except ButtonDataInvalid:
         logger.warning(f"Edit message {mid} text in {cid} - invalid markup: {markup}")
