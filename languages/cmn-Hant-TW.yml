@@ -1,0 +1,42 @@
+# Mandarin Chinese in Taiwan (Tradional)
+
+# Basic
+action: 執行操作
+description: 描述
+detail: 詳情
+reason: 理由
+status_failed: 執行失敗
+status_succeeded: 執行成功
+
+# Command
+command_flood: 頻繁傳送指令，請稍後再試
+command_lack: 缺乏指令參數
+command_para: 錯誤指令參數
+command_type: 錯誤指令類型
+command_usage: 錯誤用法
+
+
+# Record
+status: 狀態
+
+# Special
+action_send: 发送状态消息
+action_new: 发送新的状态消息
+commands: 可用指令
+command_new: 重新傳送一條狀態訊息，刪除原始訊息
+command_send: 傳送一條狀態訊息至頻道
+core: 核心
+error_already: 有已傳送的訊息
+error_none: 沒有已傳送的訊息
+error_send: 訊息傳送失敗
+total_size: 總大小
+used: 已用
+free: 閒置
+percent: 使用率
+
+# Symbol
+colon: "："
+
+# Unit
+days: 天
+seconds: 秒
