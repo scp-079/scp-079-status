@@ -20,15 +20,13 @@ import logging
 
 from pyrogram import Client, Message
 
-from .decorators import threaded
-from .etc import code, lang, get_text
+from .etc import code, lang, get_text, thread
 from .telegram import send_message
 
 # Enable logging
 logger = logging.getLogger(__name__)
 
 
-@threaded()
 def command_error(client: Client, message: Message, action: str, error: str,
                   detail: str = "") -> bool:
     # Command error
@@ -48,7 +46,9 @@ def command_error(client: Client, message: Message, action: str, error: str,
             text += f"{lang('detail')}{lang('colon')}{code(detail)}\n"
 
         # Send the message
-        result = bool(send_message(client, cid, text, mid))
+        thread(send_message, (client, cid, text, mid))
+
+        result = True
     except Exception as e:
         logger.warning(f"Command error: {e}", exc_info=True)
 
