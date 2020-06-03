@@ -74,7 +74,8 @@ def new(client: Client, message: Message) -> bool:
 
         # Check current message id
         if not glovar.message_id:
-            return command_error(client, message, lang("action_send"), lang("command_usage"), lang("error_none"))
+            return command_error(client, message, lang("action_send"), lang("command_usage"),
+                                 lang("error_none"), False)
 
         # Generate the text
         text = get_status()
@@ -84,7 +85,7 @@ def new(client: Client, message: Message) -> bool:
         result = send_message(client, glovar.critical_channel_id, text, mid)
 
         if not result:
-            return command_error(client, message, lang("action_send"), lang("error_send"))
+            return command_error(client, message, lang("action_send"), lang("error_send"), report=False)
 
         # Update the message id
         glovar.message_id = result.message_id
@@ -119,7 +120,8 @@ def send(client: Client, message: Message) -> bool:
 
         # Check current message id
         if glovar.message_id:
-            return command_error(client, message, lang("action_send"), lang("command_usage"), lang("error_already"))
+            return command_error(client, message, lang("action_send"), lang("command_usage"),
+                                 lang("error_already"), False)
 
         # Generate the text
         text = get_status()
@@ -128,7 +130,7 @@ def send(client: Client, message: Message) -> bool:
         result = send_message(client, glovar.critical_channel_id, text, mid)
 
         if not result:
-            return command_error(client, message, lang("action_send"), lang("error_send"))
+            return command_error(client, message, lang("action_send"), lang("error_send"), report=False)
 
         # Update the message id
         glovar.message_id = result.message_id

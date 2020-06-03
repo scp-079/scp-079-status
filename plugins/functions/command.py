@@ -21,24 +21,26 @@ import logging
 from pyrogram import Client, Message
 
 from .etc import code, lang, get_text, thread
-from .telegram import send_message
+from .telegram import send_message, send_report_message
 
 # Enable logging
 logger = logging.getLogger(__name__)
 
 
 def command_error(client: Client, message: Message, action: str, error: str,
-                  detail: str = "") -> bool:
+                  detail: str = "", report: bool = True) -> bool:
     # Command error
     result = False
 
     try:
         # Basic data
         cid = message.chat.id
+        uid = message.from_user.id
         mid = message.message_id
 
         # Generate the text
-        text = (f"{lang('action')}{lang('colon')}{code(action)}\n"
+        text = (f"{lang('user_id')}{lang('colon')}{code(uid)}\n"
+                f"{lang('action')}{lang('colon')}{code(action)}\n"
                 f"{lang('status')}{lang('colon')}{code(lang('status_failed'))}\n"
                 f"{lang('reason')}{lang('colon')}{code(error)}\n")
 
@@ -46,7 +48,10 @@ def command_error(client: Client, message: Message, action: str, error: str,
             text += f"{lang('detail')}{lang('colon')}{code(detail)}\n"
 
         # Send the message
-        thread(send_message, (client, cid, text, mid))
+        if report:
+            thread(send_report_message, (10, client, cid, text, mid))
+        else:
+            thread(send_message, (client, cid, text))
 
         result = True
     except Exception as e:
