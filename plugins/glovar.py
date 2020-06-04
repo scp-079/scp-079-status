@@ -133,7 +133,7 @@ version: str = "0.0.7"
 
 # Load data from TXT file
 
-with open("report.txt", encoding="utf-8") as f:
+with open("report.txt", "r", encoding="utf-8") as f:
     report = f.read()
 
 # Load data from pickle
