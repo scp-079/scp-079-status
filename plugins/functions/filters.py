@@ -50,12 +50,16 @@ def is_creator_user(_, update: Union[CallbackQuery, Message]) -> bool:
     return result
 
 
-def is_from_user(_, message: Message) -> bool:
-    # Check if the message is sent from a user
+def is_from_user(_, update: Union[CallbackQuery, Message]) -> bool:
+    # Check if the message is sent from a user, or the callback is sent from a private chat
     result = False
 
     try:
-        if message.from_user and message.from_user.id != 777000:
+        if (isinstance(update, CallbackQuery)
+                and (not update.message or not update.message.chat or update.message.chat.id < 0)):
+            return False
+
+        if update.from_user and update.from_user.id != 777000:
             return True
     except Exception as e:
         logger.warning(f"Is from user error: {e}", exc_info=True)
