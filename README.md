@@ -40,8 +40,8 @@ This bot is used to check Linux server status.
 - `LICENSE` : GPLv3
 - `main.py` : Start here
 - `README.md` : This file
+- `report.txt.example` -> `report.txt` : Report template
 - `requirements.txt` : Managed by pip
-- `template.txt` -> `report.txt` : Report template
 
 ## Contribute
 
