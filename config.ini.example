@@ -17,7 +17,7 @@ creator_id = [DATA EXPUNGED]
 
 [basic]
 bot_token = [DATA EXPUNGED]
-prefix = /!！
+prefix = /!
 
 [channels]
 critical_channel_id = [DATA EXPUNGED]

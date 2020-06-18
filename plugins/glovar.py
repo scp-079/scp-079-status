@@ -66,7 +66,7 @@ try:
 
     # [basic]
     bot_token = config["basic"].get("bot_token", bot_token)
-    prefix = list(config["basic"].get("prefix", prefix_str))
+    prefix = [p for p in list(config["basic"].get("prefix", prefix_str)) if p]
 
     # [channels]
     critical_channel_id = int(config["channels"].get("critical_channel_id", str(critical_channel_id)))
@@ -132,9 +132,8 @@ sender: str = "STATUS"
 version: str = "0.0.7"
 
 # Load data from TXT file
-
 with open("report.txt", "r", encoding="utf-8") as f:
-    report = f.read()
+    report_text = f.read()
 
 # Load data from pickle
 

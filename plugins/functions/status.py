@@ -509,7 +509,7 @@ def get_size(b: int, suffix: str = "B") -> str:
 
 def get_status() -> str:
     # Get system status
-    result = glovar.report
+    result = glovar.report_text
 
     try:
         # Basic

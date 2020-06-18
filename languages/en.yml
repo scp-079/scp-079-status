@@ -21,7 +21,7 @@ status: Status
 # Special
 action_send: Send status messages
 action_new: Send new status messages
-commands: Avalaible commands
+commands: Available commands
 command_new: Resend a status message and delete the current
 command_send: Send a status message to channel
 core: Core
