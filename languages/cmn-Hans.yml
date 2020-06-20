@@ -9,6 +9,7 @@ status_failed: 未执行
 status_succeeded: 成功执行
 
 # Command
+command_date: 命令发送时间
 command_flood: 命令发送频繁，请稍后重试
 command_lack: 命令参数缺失
 command_para: 命令参数有误
