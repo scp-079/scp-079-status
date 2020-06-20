@@ -13,7 +13,6 @@ This bot is used to check Linux server status.
 
 - Python 3.6 or higher
 - pip: `pip install -r requirements.txt` 
-- or pip: `pip install -U APScheduler distro psutil pyrogram pyyaml tgcrypto`
 
 ## Files
 
@@ -34,7 +33,9 @@ This bot is used to check Linux server status.
         - `timers.py` : Timer functions
     - handlers
         - `command.py` : Handle commands
+    - `checker.py` : Check the format of `config.ini`
     - `glovar.py` : Global variables
+    - `session.py` : Manage `bot.session`
 - `.gitignore` : Ignore
 - `config.ini.example` -> `config.ini` : Configuration
 - `LICENSE` : GPLv3
@@ -43,11 +44,11 @@ This bot is used to check Linux server status.
 - `report.txt.example` -> `report.txt` : Report template
 - `requirements.txt` : Managed by pip
 
-## Contribute
+## Contribution
 
-Welcome to make this project even better.
+Contributions are always welcome, whether it's modifying source code to add new features or bug fixes, documenting new file formats or simply editing some grammar.
 
-If you are willing to contribute, please [apply](https://t.me/SCP_079_TICKET_BOT) to join our private group on GitLab.
+You can also join the [discuss group](https://t.me/SCP_079_CHAT) if you are unsure of anything.
 
 ## Translation
 

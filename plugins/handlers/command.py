@@ -17,12 +17,13 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import logging
+from subprocess import run, PIPE
 
 from pyrogram import Client, Filters, Message
 
 from .. import glovar
-from ..functions.command import command_error
-from ..functions.etc import code, lang, thread
+from ..functions.command import command_error, get_command_type
+from ..functions.etc import code, general_link, get_int, get_readable_time, lang, thread
 from ..functions.file import save
 from ..functions.filters import creator_user, from_user
 from ..functions.group import delete_message
@@ -33,7 +34,7 @@ from ..functions.telegram import send_message
 logger = logging.getLogger(__name__)
 
 
-@Client.on_message(Filters.incoming & Filters.private & Filters.command(["start"], glovar.prefix)
+@Client.on_message(Filters.incoming & Filters.private & Filters.command(["start", "help"], glovar.prefix)
                    & from_user & creator_user)
 def start(client: Client, message: Message) -> bool:
     # Start the bot
@@ -146,5 +147,47 @@ def send(client: Client, message: Message) -> bool:
         logger.warning(f"Send error: {e}", exc_info=True)
     finally:
         glovar.locks["edit"].release()
+
+    return result
+
+
+@Client.on_message(Filters.incoming & Filters.command(["version"], glovar.prefix)
+                   & from_user & creator_user)
+def version(client: Client, message: Message) -> bool:
+    # Check the program's version
+    result = False
+
+    try:
+        # Basic data
+        cid = message.chat.id
+        mid = message.message_id
+
+        # Get command type
+        command_type = get_command_type(message)
+
+        # Check the command type
+        if command_type and command_type.upper() != glovar.sender:
+            return False
+
+        # Version info
+        git_change = bool(run("git diff-index HEAD --", stdout=PIPE, shell=True).stdout.decode().strip())
+        git_date = run("git log -1 --format='%at'", stdout=PIPE, shell=True).stdout.decode()
+        git_date = get_readable_time(get_int(git_date), "%Y/%m/%d %H:%M:%S")
+        git_hash = run("git rev-parse --short HEAD", stdout=PIPE, shell=True).stdout.decode()
+        get_hash_link = f"https://github.com/scp-079/scp-079-{glovar.sender.lower()}/commit/{git_hash}"
+        command_date = get_readable_time(message.date, "%Y/%m/%d %H:%M:%S")
+
+        # Generate the text
+        text = (f"{lang('project')}{lang('colon')}{code(glovar.sender)}\n"
+                f"{lang('version')}{lang('colon')}{code(glovar.version)}\n"
+                f"{lang('git_change')}{lang('colon')}{code(git_change)}\n"
+                f"{lang('git_hash')}{lang('colon')}{general_link(git_hash, get_hash_link)}\n"
+                f"{lang('git_date')}{lang('colon')}{code(git_date)}\n"
+                f"{lang('command_date')}{lang('colon')}{code(command_date)}\n")
+
+        # Send the report message
+        result = send_message(client, cid, text, mid)
+    except Exception as e:
+        logger.warning(f"Version error: {e}", exc_info=True)
 
     return result

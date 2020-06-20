@@ -27,6 +27,8 @@ from typing import Dict, List
 
 from yaml import safe_load
 
+from .checker import check_all
+
 # Enable logging
 logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
@@ -37,6 +39,9 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 # Read data from config.ini
+
+# [flag]
+broken: bool = True
 
 # [auth]
 creator_id: int = 0
@@ -78,10 +83,37 @@ try:
 
     # [language]
     lang = config["language"].get("lang", lang)
+
+    # [flag]
+    broken = False
 except Exception as e:
     logger.warning(f"Read data from config.ini error: {e}", exc_info=True)
 
 # Check
+check_all(
+    {
+        "auth": {
+            "creator_id": creator_id
+        },
+        "basic": {
+            "bot_token": bot_token,
+            "prefix": prefix
+        },
+        "channels": {
+            "critical_channel_id": critical_channel_id
+        },
+        "custom": {
+            "format_date": format_date,
+            "format_time": format_time,
+            "interval": interval
+        },
+        "language": {
+            "lang": lang
+        }
+    },
+    broken
+)
+
 if (False
         # [auth]
         or creator_id == 0
@@ -116,6 +148,7 @@ except Exception as e:
 # Init
 
 all_commands: List[str] = [
+    "help",
     "start",
     "new",
     "send"
@@ -129,7 +162,7 @@ locks: Dict[str, Lock] = {
 
 sender: str = "STATUS"
 
-version: str = "0.0.7"
+version: str = "0.0.8"
 
 # Load data from TXT file
 with open("report.txt", "r", encoding="utf-8") as f:
@@ -151,8 +184,10 @@ for path in ["data", "tmp"]:
 
 message_id: int = 0
 
+token: str = ""
+
 # Load data
-file_list: List[str] = ["message_id"]
+file_list: List[str] = ["message_id", "token"]
 
 for file in file_list:
     try:

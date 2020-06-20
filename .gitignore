@@ -1,10 +1,10 @@
 data/
-pics/
 tmp/
 .idea/
 log
 config.ini
 *.session*
+*.sh
 *.txt
 
 # Below copied from https://github.com/github/gitignore/blob/master/Python.gitignore

@@ -27,9 +27,13 @@ from pyrogram import Client
 
 from plugins import glovar
 from plugins.functions.timers import interval_min_10, interval_sec_n
+from plugins.session import renew
 
 # Enable logging
 logger = logging.getLogger(__name__)
+
+# Renew session
+renew()
 
 # Config session
 app = Client(

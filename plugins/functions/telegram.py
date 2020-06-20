@@ -20,8 +20,8 @@ import logging
 from typing import Iterable, Optional, Union
 
 from pyrogram import Client, InlineKeyboardMarkup, ReplyKeyboardMarkup, Message
-from pyrogram.errors import ChatAdminRequired, ButtonDataInvalid, ChannelInvalid, ChannelPrivate, FloodWait
-from pyrogram.errors import MessageDeleteForbidden, MessageNotModified, PeerIdInvalid
+from pyrogram.errors import ChatAdminRequired, ButtonDataInvalid, ButtonUrlInvalid, ChannelInvalid, ChannelPrivate
+from pyrogram.errors import FloodWait, MessageDeleteForbidden, MessageNotModified, PeerIdInvalid
 
 from .etc import delay
 from .decorators import retry
@@ -88,7 +88,7 @@ def edit_message_text(client: Client, cid: int, mid: int, text: str,
     except FloodWait as e:
         add_extra(e)
         raise e
-    except ButtonDataInvalid:
+    except (ButtonDataInvalid, ButtonUrlInvalid):
         logger.warning(f"Edit message {mid} text in {cid} - invalid markup: {markup}")
     except MessageNotModified:
         return None
@@ -120,7 +120,7 @@ def send_message(client: Client, cid: int, text: str, mid: int = None,
         )
     except FloodWait as e:
         raise e
-    except ButtonDataInvalid:
+    except (ButtonDataInvalid, ButtonUrlInvalid):
         logger.warning(f"Send message to {cid} - invalid markup: {markup}")
     except (ChannelInvalid, ChannelPrivate, ChatAdminRequired, PeerIdInvalid):
         return False
@@ -157,7 +157,7 @@ def send_report_message(secs: int, client: Client, cid: int, text: str, mid: int
         result = delay(secs, delete_messages, [client, cid, mids])
     except FloodWait as e:
         raise e
-    except ButtonDataInvalid:
+    except (ButtonDataInvalid, ButtonUrlInvalid):
         logger.warning(f"Send report message to {cid} - invalid markup: {markup}")
     except (ChannelInvalid, ChannelPrivate, ChatAdminRequired, PeerIdInvalid):
         return None

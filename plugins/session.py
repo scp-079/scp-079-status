@@ -17,47 +17,33 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import logging
-from os import remove
-from os.path import exists
-from pickle import dump
-from shutil import copyfile
 
-from .. import glovar
-from .decorators import threaded
+from . import glovar
+from .functions.file import delete_file, save
 
 # Enable logging
 logger = logging.getLogger(__name__)
 
 
-def delete_file(path: str) -> bool:
-    # Delete a file
+def renew() -> bool:
+    # Renew the session
     result = False
 
     try:
-        if not(path and exists(path)):
+        if not glovar.token:
+            glovar.token = glovar.bot_token
+            save("token")
             return False
 
-        result = remove(path) or True
-    except Exception as e:
-        logger.warning(f"Delete file error: {e}", exc_info=True)
-
-    return result
-
-
-@threaded(daemon=False)
-def save(file: str) -> bool:
-    # Save a global variable to a file
-    result = False
-
-    try:
-        if not glovar:
+        if glovar.token == glovar.bot_token:
             return False
 
-        with open(f"data/.{file}", "wb") as f:
-            dump(eval(f"glovar.{file}"), f)
+        delete_file("bot.session")
+        glovar.token = glovar.bot_token
+        save("token")
 
-        result = copyfile(f"data/.{file}", f"data/{file}") or True
+        result = True
     except Exception as e:
-        logger.warning(f"Save error: {e}", exc_info=True)
+        logger.warning(f"Renew error: {e}", exc_info=True)
 
     return result
