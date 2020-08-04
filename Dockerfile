@@ -7,6 +7,7 @@ RUN apt update \
 
 FROM python:3.8.3-slim-buster AS build
 COPY . /app
+RUN mkdir -p /app/data
 WORKDIR /app
 COPY --from=compile /root/.local /root/.local
 CMD ["python3", "main.py"]
