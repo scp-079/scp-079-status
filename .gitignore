@@ -1,11 +1,7 @@
-data/
-tmp/
 .idea/
-log
-config.ini
+data/
 *.session*
 *.sh
-*.txt
 
 # Below copied from https://github.com/github/gitignore/blob/master/Python.gitignore
 

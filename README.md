@@ -16,6 +16,9 @@ This bot is used to check Linux server status.
 
 ## Files
 
+- examples
+   - `config.ini` -> `../data/config/config.ini` : Configuration example
+   - `report.txt` -> `../data/config/report.txt` : Report template example
 - languages
    - `cmn-Hans.yml` : Mandarin Chinese (Simplified)
    - `cmn-Hant-TW.yml` : Mandarin Chinese in Taiwan (Traditional)
@@ -35,13 +38,12 @@ This bot is used to check Linux server status.
         - `command.py` : Handle commands
     - `checker.py` : Check the format of `config.ini`
     - `glovar.py` : Global variables
-    - `session.py` : Manage `bot.session`
+    - `start.py` : Execute before client start
+    - `version.py` : Execute before main script start
 - `.gitignore` : Ignore
-- `config.ini.example` -> `config.ini` : Configuration
 - `LICENSE` : GPLv3
 - `main.py` : Start here
 - `README.md` : This file
-- `report.txt.example` -> `report.txt` : Report template
 - `requirements.txt` : Managed by pip
 
 ## Contribution

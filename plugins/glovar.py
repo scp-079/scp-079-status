@@ -19,21 +19,31 @@
 import logging
 import pickle
 from configparser import RawConfigParser
-from os import mkdir
 from os.path import exists
-from shutil import rmtree
 from threading import Lock
 from typing import Dict, List
 
 from yaml import safe_load
 
-from .checker import check_all
+from .checker import check_all, raise_error
+from .version import version_control
+
+# Path variables
+CONFIG_PATH = "data/config/config.ini"
+LOG_PATH = "data/log"
+PICKLE_BACKUP_PATH = "data/pickle/backup"
+PICKLE_PATH = "data/pickle"
+REPORT_PATH = "data/config/report.txt"
+SESSION_PATH = "data/session/bot.session"
+
+# Version control
+version_control()
 
 # Enable logging
 logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
     level=logging.WARNING,
-    filename="log",
+    filename=f"{LOG_PATH}/log",
     filemode="a"
 )
 logger = logging.getLogger(__name__)
@@ -63,8 +73,9 @@ interval: int = 0
 lang: str = ""
 
 try:
+    not exists(CONFIG_PATH) and raise_error(f"{CONFIG_PATH} does not exists")
     config = RawConfigParser()
-    config.read("config.ini")
+    config.read(CONFIG_PATH)
 
     # [auth]
     creator_id = int(config["auth"].get("creator_id", str(creator_id)))
@@ -87,7 +98,8 @@ try:
     # [flag]
     broken = False
 except Exception as e:
-    logger.warning(f"Read data from config.ini error: {e}", exc_info=True)
+    print(f"[ERROR] Read data from {CONFIG_PATH} error, please check the log file")
+    logger.warning(f"Read data from {CONFIG_PATH} error: {e}", exc_info=True)
 
 # Check
 check_all(
@@ -113,27 +125,6 @@ check_all(
     },
     broken
 )
-
-if (False
-        # [auth]
-        or creator_id == 0
-
-        # [basic]
-        or bot_token in {"", "[DATA EXPUNGED]"}
-        or prefix == []
-
-        # [channels]
-        or critical_channel_id == 0
-
-        # [custom]
-        or format_date in {"", "[DATA EXPUNGED]"}
-        or format_time in {"", "[DATA EXPUNGED]"}
-        or interval == 0
-
-        # [language]
-        or lang in {"", "[DATA EXPUNGED]"}):
-    logger.critical("No proper settings")
-    raise SystemExit("No proper settings")
 
 # Language Dictionary
 lang_dict: dict = {}
@@ -162,46 +153,43 @@ locks: Dict[str, Lock] = {
 
 sender: str = "STATUS"
 
-version: str = "0.0.8"
+version: str = "0.0.9"
 
 # Load data from TXT file
-with open("report.txt", "r", encoding="utf-8") as f:
-    report_text = f.read()
+
+if exists(REPORT_PATH):
+    with open("report.txt", "r", encoding="utf-8") as f:
+        report_text = f.read()
+else:
+    report_text = ""
 
 # Load data from pickle
 
-# Init dir
-try:
-    rmtree("tmp")
-except Exception as e:
-    logger.info(f"Remove tmp error: {e}")
-
-for path in ["data", "tmp"]:
-    if not exists(path):
-        mkdir(path)
-
 # Init data
+
+current: str = ""
 
 message_id: int = 0
 
 token: str = ""
 
 # Load data
-file_list: List[str] = ["message_id", "token"]
+file_list: List[str] = ["message_id",
+                        "current", "token"]
 
 for file in file_list:
     try:
         try:
-            if exists(f"data/{file}") or exists(f"data/.{file}"):
-                with open(f"data/{file}", "rb") as f:
+            if exists(f"{PICKLE_PATH}/{file}") or exists(f"{PICKLE_BACKUP_PATH}/{file}"):
+                with open(f"{PICKLE_PATH}/{file}", "rb") as f:
                     locals()[f"{file}"] = pickle.load(f)
             else:
-                with open(f"data/{file}", "wb") as f:
+                with open(f"{PICKLE_PATH}/{file}", "wb") as f:
                     pickle.dump(eval(f"{file}"), f)
         except Exception as e:
             logger.error(f"Load data {file} error: {e}", exc_info=True)
 
-            with open(f"data/.{file}", "rb") as f:
+            with open(f"{PICKLE_BACKUP_PATH}/{file}", "rb") as f:
                 locals()[f"{file}"] = pickle.load(f)
     except Exception as e:
         logger.critical(f"Load data {file} backup error: {e}", exc_info=True)

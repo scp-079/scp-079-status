@@ -22,8 +22,8 @@ from time import sleep
 from pyrogram import Client
 
 from .. import glovar
-from .etc import delay
-from .file import save
+from .etc import delay, get_readable_time
+from .file import move_file, save
 from .group import delete_message
 from .status import get_status
 from .telegram import edit_message_text, send_message
@@ -100,5 +100,22 @@ def interval_sec_n(client: Client) -> bool:
         logger.warning(f"Interval sec n error: {e}", exc_info=True)
     finally:
         glovar.locks["edit"].release()
+
+    return result
+
+
+def log_rotation() -> bool:
+    # Log rotation
+    result = False
+
+    try:
+        move_file(f"{glovar.LOG_PATH}/log", f"{glovar.LOG_PATH}/log-{get_readable_time(the_format='%Y%m%d')}")
+
+        with open(f"{glovar.LOG_PATH}/log", "w", encoding="utf-8") as f:
+            f.write("")
+
+        result = True
+    except Exception as e:
+        logger.warning(f"Log rotation error: {e}", exc_info=True)
 
     return result

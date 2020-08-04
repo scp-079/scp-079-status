@@ -25,6 +25,27 @@ from .functions.file import delete_file, save
 logger = logging.getLogger(__name__)
 
 
+def init() -> bool:
+    # Init the data
+    result = False
+
+    try:
+        # Check version
+        if glovar.current == glovar.version:
+            return True
+
+        # First start
+        if not glovar.current:
+            glovar.current = glovar.version
+            save("current")
+
+        result = True
+    except Exception as e:
+        logger.warning(f"Init error: {e}", exc_info=True)
+
+    return result
+
+
 def renew() -> bool:
     # Renew the session
     result = False
@@ -38,7 +59,7 @@ def renew() -> bool:
         if glovar.token == glovar.bot_token:
             return False
 
-        delete_file("bot.session")
+        delete_file(glovar.SESSION_PATH)
         glovar.token = glovar.bot_token
         save("token")
 
