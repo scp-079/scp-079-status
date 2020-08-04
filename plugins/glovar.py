@@ -158,7 +158,7 @@ version: str = "0.0.9"
 # Load data from TXT file
 
 if exists(REPORT_PATH):
-    with open("report.txt", "r", encoding="utf-8") as f:
+    with open(REPORT_PATH, "r", encoding="utf-8") as f:
         report_text = f.read()
 else:
     report_text = ""
