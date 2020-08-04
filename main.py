@@ -42,8 +42,8 @@ renew()
 app = Client(
     session_name="bot",
     bot_token=glovar.bot_token,
-    workdir="data/session",
-    config_file="data/config/config.ini"
+    workdir=glovar.SESSION_DIR_PATH,
+    config_file=glovar.CONFIG_PATH
 )
 app.start()
 

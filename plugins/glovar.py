@@ -34,6 +34,7 @@ LOG_PATH = "data/log"
 PICKLE_BACKUP_PATH = "data/pickle/backup"
 PICKLE_PATH = "data/pickle"
 REPORT_PATH = "data/config/report.txt"
+SESSION_DIR_PATH = "data/session"
 SESSION_PATH = "data/session/bot.session"
 
 # Version control
