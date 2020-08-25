@@ -13,6 +13,7 @@ command_date: 命令发送时间
 command_flood: 頻繁傳送指令，請稍後再試
 command_lack: 缺乏指令參數
 command_para: 錯誤指令參數
+command_received: 已接收到指令
 command_type: 錯誤指令類型
 command_usage: 錯誤用法
 

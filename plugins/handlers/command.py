@@ -204,6 +204,12 @@ def update(client: Client, message: Message) -> bool:
         if command_type and command_type.upper() != glovar.sender:
             return False
 
+        # Check update status
+        if glovar.updating:
+            text = (f"{lang('project')}{lang('colon')}{code(glovar.sender)}\n"
+                    f"{lang('status')}{lang('colon')}{code(lang('program_updating'))}\n")
+            return thread(send_message, (client, cid, text, mid))
+
         # Generate the text
         text = (f"{lang('project')}{lang('colon')}{code(glovar.sender)}\n"
                 f"{lang('action')}{lang('colon')}{code(lang('program_update'))}\n"

@@ -13,6 +13,7 @@ command_date: 命令发送时间
 command_flood: 命令发送频繁，请稍后重试
 command_lack: 命令参数缺失
 command_para: 命令参数有误
+command_received: 已接收到指令
 command_type: 命令类别有误
 command_usage: 用法有误
 
