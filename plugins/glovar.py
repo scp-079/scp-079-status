@@ -141,9 +141,11 @@ except Exception as e:
 
 all_commands: List[str] = [
     "help",
-    "start",
     "new",
-    "send"
+    "restart",
+    "start",
+    "send",
+    "update"
 ]
 
 extra: float = 0
@@ -154,7 +156,7 @@ locks: Dict[str, Lock] = {
 
 sender: str = "STATUS"
 
-version: str = "0.0.9"
+version: str = "0.1.0"
 
 # Load data from TXT file
 
