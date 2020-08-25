@@ -156,6 +156,8 @@ locks: Dict[str, Lock] = {
 
 sender: str = "STATUS"
 
+updating: bool = False
+
 version: str = "0.1.0"
 
 # Load data from TXT file
