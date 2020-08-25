@@ -31,6 +31,7 @@ This bot is used to check Linux server status.
         - `file.py` : Save files
         - `filters.py` : Some filters
         - `group.py` : Functions about group
+        - `program.py` : Functions about program
         - `status.py` : Functions about system status
         - `telegram.py` : Some telegram functions
         - `timers.py` : Timer functions
