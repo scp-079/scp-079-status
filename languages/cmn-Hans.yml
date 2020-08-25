@@ -16,6 +16,11 @@ command_para: 命令参数有误
 command_type: 命令类别有误
 command_usage: 用法有误
 
+# Program
+program_restart: 重启程序
+program_update: 更新程序
+program_updating: 程序正在执行更新
+
 # Record
 status: 状态
 
