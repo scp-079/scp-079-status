@@ -245,6 +245,12 @@ def version(client: Client, message: Message) -> bool:
         if command_type and command_type.upper() != glovar.sender:
             return False
 
+        # Check update status
+        if glovar.updating:
+            text = (f"{lang('project')}{lang('colon')}{code(glovar.sender)}\n"
+                    f"{lang('status')}{lang('colon')}{code(lang('program_updating'))}\n")
+            return thread(send_message, (client, cid, text, mid))
+
         # Version info
         git_change = bool(run("git diff-index HEAD --", stdout=PIPE, shell=True).stdout.decode().strip())
         git_date = run("git log -1 --format='%at'", stdout=PIPE, shell=True).stdout.decode()
