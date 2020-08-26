@@ -17,7 +17,8 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import logging
-from os import getcwd
+from os import getcwd, getpid, kill
+from signal import SIGABRT
 from subprocess import run
 
 # Enable logging
@@ -31,6 +32,7 @@ def restart_program() -> bool:
     try:
         service_name = getcwd().split("/")[-1]
         run(f"systemctl --user restart {service_name}", shell=True)
+        kill(getpid(), SIGABRT)
     except Exception as e:
         logger.warning(f"Restart program error: {e}", exc_info=True)
 
@@ -44,6 +46,8 @@ def update_program() -> bool:
     try:
         service_name = getcwd().split("/")[-1]
         run(f"bash ~/scp-079/scripts/update.sh {service_name}", shell=True)
+        run(f"git pull", shell=True)
+        kill(getpid(), SIGABRT)
     except Exception as e:
         logger.warning(f"Update program error: {e}", exc_info=True)
 
