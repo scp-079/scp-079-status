@@ -132,5 +132,5 @@ def check_language(values: dict, broken: bool) -> str:
 
 def raise_error(error: str):
     error = "-" * 24 + f"\nBot refused to start because:\n" + "-" * 24 + f"\n{error}" + "-" * 24
-    logger.critical(error)
+    logger.critical("\n" + error)
     raise SystemExit(error)
