@@ -30,6 +30,7 @@ from .version import version_control
 
 # Path variables
 CONFIG_PATH = "data/config/config.ini"
+CUSTOM_LANG_PATH = "data/config/custom.yml"
 LOG_PATH = "data/log"
 PICKLE_BACKUP_PATH = "data/pickle/backup"
 PICKLE_PATH = "data/pickle"
@@ -129,9 +130,10 @@ check_all(
 
 # Language Dictionary
 lang_dict: dict = {}
+LANG_PATH = CUSTOM_LANG_PATH if exists(CUSTOM_LANG_PATH) else f"languages/{lang}.yml"
 
 try:
-    with open(f"languages/{lang}.yml", "r", encoding="utf-8") as f:
+    with open(LANG_PATH, "r", encoding="utf-8") as f:
         lang_dict = safe_load(f)
 except Exception as e:
     logger.critical(f"Reading language YAML file failed: {e}", exc_info=True)
