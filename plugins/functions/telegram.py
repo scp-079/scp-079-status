@@ -19,9 +19,10 @@
 import logging
 from typing import Iterable, Optional, Union
 
-from pyrogram import Client, InlineKeyboardMarkup, ReplyKeyboardMarkup, Message
+from pyrogram import Client
 from pyrogram.errors import ChatAdminRequired, ButtonDataInvalid, ButtonUrlInvalid, ChannelInvalid, ChannelPrivate
 from pyrogram.errors import FloodWait, MessageDeleteForbidden, MessageNotModified, PeerIdInvalid
+from pyrogram.types import InlineKeyboardMarkup, ReplyKeyboardMarkup, Message
 
 from .etc import delay
 from .decorators import retry
@@ -130,23 +131,18 @@ def send_message(client: Client, cid: int, text: str, mid: int = None,
     return result
 
 
-@retry
 def send_report_message(secs: int, client: Client, cid: int, text: str, mid: int = None,
                         markup: InlineKeyboardMarkup = None) -> Optional[bool]:
     # Send a message that will be auto deleted to a chat
     result = None
 
     try:
-        if not text.strip():
-            return None
-
-        result = client.send_message(
-            chat_id=cid,
+        result = send_message(
+            client=client,
+            cid=cid,
             text=text,
-            parse_mode="html",
-            disable_web_page_preview=True,
-            reply_to_message_id=mid,
-            reply_markup=markup
+            mid=mid,
+            markup=markup
         )
 
         if not result:
@@ -155,12 +151,6 @@ def send_report_message(secs: int, client: Client, cid: int, text: str, mid: int
         mid = result.message_id
         mids = [mid]
         result = delay(secs, delete_messages, [client, cid, mids])
-    except FloodWait as e:
-        raise e
-    except (ButtonDataInvalid, ButtonUrlInvalid):
-        logger.warning(f"Send report message to {cid} - invalid markup: {markup}")
-    except (ChannelInvalid, ChannelPrivate, ChatAdminRequired, PeerIdInvalid):
-        return None
     except Exception as e:
         logger.warning(f"Send report message to {cid} error: {e}", exc_info=True)
 

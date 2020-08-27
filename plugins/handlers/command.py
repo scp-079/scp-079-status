@@ -19,7 +19,8 @@
 import logging
 from subprocess import run, PIPE
 
-from pyrogram import Client, Filters, Message
+from pyrogram import Client, filters
+from pyrogram.types import Message
 
 from .. import glovar
 from ..functions.command import command_error, get_command_type
@@ -35,7 +36,7 @@ from ..functions.telegram import send_message
 logger = logging.getLogger(__name__)
 
 
-@Client.on_message(Filters.incoming & Filters.private & Filters.command(["start", "help"], glovar.prefix)
+@Client.on_message(filters.incoming & filters.private & filters.command(["start", "help"], glovar.prefix)
                    & from_user & creator_user)
 def start(client: Client, message: Message) -> bool:
     # Start the bot
@@ -61,7 +62,7 @@ def start(client: Client, message: Message) -> bool:
     return result
 
 
-@Client.on_message(Filters.incoming & Filters.private & Filters.command(["new"], glovar.prefix)
+@Client.on_message(filters.incoming & filters.private & filters.command(["new"], glovar.prefix)
                    & from_user & creator_user)
 def new(client: Client, message: Message) -> bool:
     # Send a new status message
@@ -107,7 +108,7 @@ def new(client: Client, message: Message) -> bool:
     return result
 
 
-@Client.on_message(Filters.incoming & Filters.command(["restart"], glovar.prefix)
+@Client.on_message(filters.incoming & filters.command(["restart"], glovar.prefix)
                    & from_user & creator_user)
 def restart(client: Client, message: Message) -> bool:
     # Restart the program
@@ -141,7 +142,7 @@ def restart(client: Client, message: Message) -> bool:
     return result
 
 
-@Client.on_message(Filters.incoming & Filters.private & Filters.command(["send"], glovar.prefix)
+@Client.on_message(filters.incoming & filters.private & filters.command(["send"], glovar.prefix)
                    & from_user & creator_user)
 def send(client: Client, message: Message) -> bool:
     # Send a status message
@@ -186,7 +187,7 @@ def send(client: Client, message: Message) -> bool:
     return result
 
 
-@Client.on_message(Filters.incoming & Filters.command(["update"], glovar.prefix)
+@Client.on_message(filters.incoming & filters.command(["update"], glovar.prefix)
                    & from_user & creator_user)
 def update(client: Client, message: Message) -> bool:
     # Update the program
@@ -227,7 +228,7 @@ def update(client: Client, message: Message) -> bool:
     return result
 
 
-@Client.on_message(Filters.incoming & Filters.command(["version"], glovar.prefix)
+@Client.on_message(filters.incoming & filters.command(["version"], glovar.prefix)
                    & from_user & creator_user)
 def version(client: Client, message: Message) -> bool:
     # Check the program's version

@@ -26,8 +26,8 @@ from threading import Thread, Timer
 from time import gmtime, localtime, sleep, strftime, time
 from typing import Any, Callable, Optional, Union
 
-from pyrogram import Message
 from pyrogram.errors import FloodWait
+from pyrogram.types import Message
 
 from .. import glovar
 

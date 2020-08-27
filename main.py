@@ -23,7 +23,7 @@ import logging
 from time import sleep
 
 from apscheduler.schedulers.background import BackgroundScheduler
-from pyrogram import Client
+from pyrogram import Client, idle
 
 from plugins import glovar
 from plugins.functions.timers import interval_min_10, interval_sec_n, log_rotation
@@ -58,7 +58,7 @@ scheduler.add_job(log_rotation, "cron", hour=23, minute=59)
 scheduler.start()
 
 # Hold
-app.idle()
+idle()
 
 # Stop
 app.stop()

@@ -19,7 +19,8 @@
 import logging
 from typing import Union
 
-from pyrogram import CallbackQuery, Filters, Message
+from pyrogram import filters
+from pyrogram.types import CallbackQuery, Message
 
 from .. import glovar
 
@@ -27,7 +28,7 @@ from .. import glovar
 logger = logging.getLogger(__name__)
 
 
-def is_creator_user(_, update: Union[CallbackQuery, Message]) -> bool:
+def is_creator_user(_, __, update: Union[CallbackQuery, Message]) -> bool:
     # Check if the user who sent the message is the creator
     result = False
 
@@ -50,7 +51,7 @@ def is_creator_user(_, update: Union[CallbackQuery, Message]) -> bool:
     return result
 
 
-def is_from_user(_, update: Union[CallbackQuery, Message]) -> bool:
+def is_from_user(_, __, update: Union[CallbackQuery, Message]) -> bool:
     # Check if the message is sent from a user, or the callback is sent from a private chat
     result = False
 
@@ -67,12 +68,12 @@ def is_from_user(_, update: Union[CallbackQuery, Message]) -> bool:
     return result
 
 
-creator_user = Filters.create(
+creator_user = filters.create(
     func=is_creator_user,
     name="Creator User"
 )
 
-from_user = Filters.create(
+from_user = filters.create(
     func=is_from_user,
     name="From User"
 )

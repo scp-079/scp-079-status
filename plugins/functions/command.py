@@ -18,7 +18,8 @@
 
 import logging
 
-from pyrogram import Client, Message
+from pyrogram import Client
+from pyrogram.types import Message
 
 from .etc import code, lang, get_text, thread
 from .telegram import send_message, send_report_message
