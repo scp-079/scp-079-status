@@ -160,7 +160,7 @@ sender: str = "STATUS"
 
 updating: bool = False
 
-version: str = "0.1.0"
+version: str = "0.1.1"
 
 # Load data from TXT file
 
