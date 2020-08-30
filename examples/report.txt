@@ -1,17 +1,17 @@
 <b>Basic</b>
-------------------------
+<code>----------------</code>
 Interval: <code>$interval$</code>
 Last Seen: <code>$last$</code>
 
 <b>System</b>
-------------------------
+<code>----------------</code>
 OS: <code>$dist$</code>
 Kernel: <code>$kernel$</code>
 Host Name: <code>$hostname$</code>
 Up Time: <code>$up_time$</code>
 
 <b>CPU</b>
-------------------------
+<code>----------------</code>
 Average Load: <code>$load$</code>
 CPU Physical: <code>$cpu_count_physical$</code>
 CPU Logical: <code>$cpu_count_logical$</code>
@@ -23,7 +23,7 @@ CPU Usage Per Core:
 $cpu_percent_per$
 
 <b>Memory</b>
-------------------------
+<code>----------------</code>
 RAM Total: <code>$memory_total$</code>
 RAM Available: <code>$memory_available$</code>
 RAM Used: <code>$memory_used$</code>
@@ -34,12 +34,12 @@ SWAP Used: <code>$swap_used$</code>
 SWAP Percentage: <code>$swap_percent$</code>
 
 <b>Disk</b>
-------------------------
+<code>----------------</code>
 Total read: <code>$disk_read$</code>
 Total write: <code>$disk_write$</code>
 $disk_usage$
 
 <b>Network</b>
-------------------------
+<code>----------------</code>
 Total Bytes Sent: <code>$network_sent$</code>
 Total Bytes Received: <code>$network_received$</code>
