@@ -54,7 +54,7 @@ def command_error(client: Client, message: Message, action: str, error: str,
 
         # Send the message
         if report:
-            thread(send_report_message, (10, client, cid, text))
+            send_report_message(10, client, cid, text)
         else:
             thread(send_message, (client, cid, text, mid))
 

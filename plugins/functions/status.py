@@ -22,8 +22,8 @@ from os import getloadavg
 from platform import uname
 from socket import gethostname
 
-from psutil import boot_time, cpu_count, cpu_freq, cpu_percent, disk_io_counters, disk_usage, net_io_counters
-from psutil import virtual_memory, swap_memory
+from psutil import (boot_time, cpu_count, cpu_freq, cpu_percent, disk_io_counters, disk_usage, net_io_counters,
+                    virtual_memory, swap_memory)
 from pyrogram.errors import FloodWait
 
 from .. import glovar
