@@ -70,6 +70,7 @@ critical_channel_id: int = 0
 format_date: str = ""
 format_time: str = ""
 interval: int = 0
+manual_link: str = "https://manuals.scp-079.org/bots/status/"
 
 # [language]
 lang: str = ""
@@ -80,22 +81,23 @@ try:
     config.read(CONFIG_PATH)
 
     # [auth]
-    creator_id = int(config["auth"].get("creator_id", str(creator_id)))
+    creator_id = int(config["auth"].get("creator_id", fallback=str(creator_id)))
 
     # [basic]
-    bot_token = config["basic"].get("bot_token", bot_token)
+    bot_token = config["basic"].get("bot_token", fallback=bot_token)
     prefix = [p for p in list(config["basic"].get("prefix", prefix_str)) if p]
 
     # [channels]
-    critical_channel_id = int(config["channels"].get("critical_channel_id", str(critical_channel_id)))
+    critical_channel_id = int(config["channels"].get("critical_channel_id", fallback=str(critical_channel_id)))
 
     # [custom]
-    format_date = config["custom"].get("format_date", format_date)
-    format_time = config["custom"].get("format_time", format_time)
-    interval = int(config["custom"].get("interval", str(interval)))
+    format_date = config["custom"].get("format_date", fallback=format_date)
+    format_time = config["custom"].get("format_time", fallback=format_time)
+    interval = int(config["custom"].get("interval", fallback=str(interval)))
+    manual_link = config.get("custom", "manual_link", fallback=manual_link)
 
     # [language]
-    lang = config["language"].get("lang", lang)
+    lang = config["language"].get("lang", fallback=lang)
 
     # [flag]
     broken = False
@@ -119,7 +121,8 @@ check_all(
         "custom": {
             "format_date": format_date,
             "format_time": format_time,
-            "interval": interval
+            "interval": interval,
+            "manual_link": manual_link
         },
         "language": {
             "lang": lang

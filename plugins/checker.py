@@ -101,6 +101,8 @@ def check_custom(values: dict, broken: bool) -> str:
     for key in values:
         if values[key] in {"", "[DATA EXPUNGED]"}:
             result += f"[ERROR] [custom] {key} - please fill something except [DATA EXPUNGED]\n"
+        elif key.endswith("link") and (values[key].startswith("@") or " " in values[key] or "." not in values[key]):
+            result += f"[ERROR] [custom] {key} - please input a valid url\n"
         elif key == "interval" and not values[key]:
             result += f"[ERROR] [custom] {key} - should be a positive value\n"
 

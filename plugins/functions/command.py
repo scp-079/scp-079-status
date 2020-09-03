@@ -19,8 +19,9 @@
 import logging
 
 from pyrogram import Client
-from pyrogram.types import Message
+from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 
+from .. import glovar
 from .etc import code, lang, get_text, thread
 from .telegram import send_message, send_report_message
 
@@ -52,11 +53,22 @@ def command_error(client: Client, message: Message, action: str, error: str,
         if detail:
             text += f"{lang('detail')}{lang('colon')}{code(detail)}\n"
 
+        markup = InlineKeyboardMarkup(
+            [
+                [
+                    InlineKeyboardButton(
+                        text=lang("read_manual"),
+                        url=glovar.manual_link
+                    )
+                ]
+            ]
+        )
+
         # Send the message
         if report:
-            send_report_message(10, client, cid, text)
+            send_report_message(10, client, cid, text, None, markup)
         else:
-            thread(send_message, (client, cid, text, mid))
+            thread(send_message, (client, cid, text, mid, markup))
 
         result = True
     except Exception as e:
