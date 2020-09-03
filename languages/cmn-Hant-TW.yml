@@ -38,6 +38,7 @@ error_none: 沒有已傳送的訊息
 error_send: 訊息傳送失敗
 total_size: 總大小
 used: 已用
+user_id: 用户 ID
 free: 閒置
 percent: 使用率
 

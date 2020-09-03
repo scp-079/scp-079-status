@@ -38,6 +38,7 @@ error_none: No sent messages
 error_send: Sending failed
 total_size: Total size
 used: Used
+user_id: User ID
 free: Free
 percent: Percentage
 

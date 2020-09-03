@@ -38,6 +38,7 @@ error_none: 没有已发送的消息
 error_send: 消息发送失败
 total_size: 总大小
 used: 已使用
+user_id: 用户 ID
 free: 空余
 percent: 占用比
 
