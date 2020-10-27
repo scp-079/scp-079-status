@@ -17,6 +17,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import logging
+from subprocess import run
 from time import sleep
 
 from pyrogram import Client
@@ -113,6 +114,17 @@ def log_rotation() -> bool:
 
         with open(f"{glovar.LOG_PATH}/log", "w", encoding="utf-8") as f:
             f.write("")
+
+        # Reconfigure the logger
+        [logging.root.removeHandler(handler) for handler in logging.root.handlers[:]]
+        logging.basicConfig(
+            format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+            level=logging.WARNING,
+            filename=f"{glovar.LOG_PATH}/log",
+            filemode="a"
+        )
+
+        run(f"find {glovar.LOG_PATH}/log-* -mtime +30 -delete", shell=True)
 
         result = True
     except Exception as e:
