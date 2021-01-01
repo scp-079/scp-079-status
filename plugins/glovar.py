@@ -1,5 +1,5 @@
 # SCP-079-STATUS - Check Linux server status
-# Copyright (C) 2019-2020 SCP-079 <https://scp-079.org>
+# Copyright (C) 2019-2021 SCP-079 <https://scp-079.org>
 #
 # This file is part of SCP-079-STATUS.
 #
@@ -156,14 +156,16 @@ all_commands: List[str] = [
 extra: float = 0
 
 locks: Dict[str, Lock] = {
-    "edit": Lock()
+    "edit": Lock(),
+    "file": Lock(),
+    "restart": Lock()
 }
 
 sender: str = "STATUS"
 
 updating: bool = False
 
-version: str = "0.1.2"
+version: str = "0.1.3"
 
 # Load data from TXT file
 

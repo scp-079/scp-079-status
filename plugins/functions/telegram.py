@@ -1,5 +1,5 @@
 # SCP-079-STATUS - Check Linux server status
-# Copyright (C) 2019-2020 SCP-079 <https://scp-079.org>
+# Copyright (C) 2019-2021 SCP-079 <https://scp-079.org>
 #
 # This file is part of SCP-079-STATUS.
 #
@@ -21,7 +21,7 @@ from typing import Iterable, Optional, Union
 
 from pyrogram import Client
 from pyrogram.errors import (ChatAdminRequired, ButtonDataInvalid, ButtonUrlInvalid, ChannelInvalid, ChannelPrivate,
-                             FloodWait, MessageDeleteForbidden, MessageNotModified, PeerIdInvalid)
+                             FloodWait, MessageDeleteForbidden, MessageIdInvalid, MessageNotModified, PeerIdInvalid)
 from pyrogram.types import InlineKeyboardMarkup, ReplyKeyboardMarkup, Message
 
 from .etc import delay
@@ -59,6 +59,7 @@ def delete_messages_100(client: Client, cid: int, mids: Iterable[int]) -> Option
         mids = list(mids)
         result = client.delete_messages(chat_id=cid, message_ids=mids)
     except FloodWait as e:
+        logger.warning(f"Delete message in {cid} - Sleep for {e.x} second(s)")
         raise e
     except MessageDeleteForbidden:
         return False
@@ -91,6 +92,9 @@ def edit_message_text(client: Client, cid: int, mid: int, text: str,
         raise e
     except (ButtonDataInvalid, ButtonUrlInvalid):
         logger.warning(f"Edit message {mid} text in {cid} - invalid markup: {markup}")
+    except MessageIdInvalid:
+        logger.warning(f"Edit message {mid} text in {cid} - invalid mid")
+        return None
     except MessageNotModified:
         return None
     except (ChannelInvalid, ChannelPrivate, ChatAdminRequired, PeerIdInvalid):
@@ -120,6 +124,7 @@ def send_message(client: Client, cid: int, text: str, mid: int = None,
             reply_markup=markup
         )
     except FloodWait as e:
+        logger.warning(f"Send message to {cid} - Sleep for {e.x} second(s)")
         raise e
     except (ButtonDataInvalid, ButtonUrlInvalid):
         logger.warning(f"Send message to {cid} - invalid markup: {markup}")

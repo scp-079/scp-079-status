@@ -1,5 +1,5 @@
 # SCP-079-STATUS - Check Linux server status
-# Copyright (C) 2019-2020 SCP-079 <https://scp-079.org>
+# Copyright (C) 2019-2021 SCP-079 <https://scp-079.org>
 #
 # This file is part of SCP-079-STATUS.
 #
@@ -136,7 +136,7 @@ def restart(client: Client, message: Message) -> bool:
         send_message(client, cid, text, mid)
 
         # Restart the program
-        result = restart_program()
+        result = restart_program(client)
     except Exception as e:
         logger.warning(f"Restart error: {e}", exc_info=True)
 

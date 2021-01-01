@@ -1,5 +1,5 @@
 # SCP-079-STATUS - Check Linux server status
-# Copyright (C) 2019-2020 SCP-079 <https://scp-079.org>
+# Copyright (C) 2019-2021 SCP-079 <https://scp-079.org>
 #
 # This file is part of SCP-079-STATUS.
 #
@@ -17,10 +17,11 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import logging
+import pickle
 from os import remove
 from os.path import exists
-from pickle import dump
 from shutil import copyfile, move
+from time import sleep
 
 from .. import glovar
 from .decorators import threaded
@@ -64,15 +65,23 @@ def save(file: str) -> bool:
     # Save a global variable to a file
     result = False
 
+    glovar.locks["file"].acquire()
+
     try:
         if not glovar:
             return False
 
         with open(f"{glovar.PICKLE_BACKUP_PATH}/{file}", "wb") as f:
-            dump(eval(f"glovar.{file}"), f)
+            pickle.dump(eval(f"glovar.{file}"), f)
 
         result = copyfile(f"{glovar.PICKLE_BACKUP_PATH}/{file}", f"{glovar.PICKLE_PATH}/{file}")
+    except RuntimeError:
+        glovar.locks["file"].release()
+        sleep(1)
+        return save(file)
     except Exception as e:
-        logger.warning(f"Save error: {e}", exc_info=True)
+        logger.warning(f"Save {file} error: {e}", exc_info=True)
+    finally:
+        glovar.locks["file"].release()
 
     return result

@@ -6,6 +6,7 @@ description: Description
 detail: Detail
 read_manual: 阅读使用手册
 reason: Reason
+restarted: 已重启
 status_failed: Failed
 status_succeeded: Succeeded
 

@@ -1,8 +1,5 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-
 # SCP-079-STATUS - Check Linux server status
-# Copyright (C) 2019-2020 SCP-079 <https://scp-079.org>
+# Copyright (C) 2019-2021 SCP-079 <https://scp-079.org>
 #
 # This file is part of SCP-079-STATUS.
 #
@@ -26,6 +23,8 @@ from apscheduler.schedulers.background import BackgroundScheduler
 from pyrogram import Client, idle
 
 from plugins import glovar
+from plugins.functions.etc import delay
+from plugins.functions.program import restart_program
 from plugins.functions.timers import interval_min_10, interval_sec_n, log_rotation
 from plugins.start import init, renew
 
@@ -46,6 +45,9 @@ app = Client(
     config_file=glovar.CONFIG_PATH
 )
 app.start()
+
+# Start the bot
+delay(10, restart_program, [app, glovar.creator_id])
 
 # Start update
 sleep(glovar.interval)

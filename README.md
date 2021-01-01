@@ -1,6 +1,6 @@
 # SCP-079-STATUS
 
-This bot is used to check Linux server status.
+With this program, you can easily create a bot to monitor your Linux server's status in the Telegram channel.
 
 ## How to use
 
@@ -11,18 +11,21 @@ This bot is used to check Linux server status.
 
 ## Requirements
 
-- Python 3.6 or higher
+- OS: Linux
+- Python: 3.7 or higher
 - pip: `pip install -r requirements.txt` 
 
 ## Files
 
+- data
+    - The folder will be generated when program starts
 - examples
-   - `config.ini` -> `../data/config/config.ini` : Configuration example
-   - `report.txt` -> `../data/config/report.txt` : Report template example
+    - `config.ini` -> `../data/config/config.ini` : Configuration example
+    - `report.txt` -> `../data/config/report.txt` : Report template example
 - languages
-   - `cmn-Hans.yml` : Mandarin Chinese (Simplified)
-   - `cmn-Hant-TW.yml` : Mandarin Chinese in Taiwan (Traditional)
-   - `en.yml` : English
+    - `cmn-Hans.yml` : Mandarin Chinese (Simplified)
+    - `cmn-Hant-TW.yml` : Mandarin Chinese in Taiwan (Traditional)
+    - `en.yml` : English
 - plugins
     - functions
         - `command.py` : Functions about command
@@ -37,11 +40,13 @@ This bot is used to check Linux server status.
         - `timers.py` : Timer functions
     - handlers
         - `command.py` : Handle commands
+    - `__init__.py`
     - `checker.py` : Check the format of `config.ini`
     - `glovar.py` : Global variables
     - `start.py` : Execute before client start
     - `version.py` : Execute before main script start
-- `.gitignore` : Ignore
+- `.gitignore` : Specifies intentionally untracked files that Git should ignore
+- `dictionary.dic` : Project's dictionary
 - `LICENSE` : GPLv3
 - `main.py` : Start here
 - `README.md` : This file
@@ -58,6 +63,7 @@ You can also join the [discuss group](https://t.me/SCP_079_CHAT) if you are unsu
 - [Choose Language Tags](https://www.w3.org/International/questions/qa-choosing-language-tags)
 - [Language Subtag Registry](https://www.iana.org/assignments/language-subtag-registry/language-subtag-registry)
 
-## License
+# Copyright & License
 
-Licensed under the terms of the [GNU General Public License v3](LICENSE).
+- Copyright (C) 2019-2021 SCP-079 <https://scp-079.org>
+- Licensed under the terms of the [GNU General Public License v3](LICENSE).
