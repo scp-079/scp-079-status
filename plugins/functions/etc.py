@@ -22,7 +22,7 @@ from html import escape
 from json import dumps
 from random import choice, uniform
 from string import ascii_letters, digits
-from threading import Thread, Timer
+from threading import active_count, Thread, Timer
 from time import gmtime, localtime, sleep, strftime, time
 from typing import Any, Callable, Optional, Union
 
@@ -246,6 +246,7 @@ def thread(target: Callable, args: tuple, kwargs: dict = None, daemon: bool = Tr
         result = t.start() or True
     except Exception as e:
         logger.warning(f"Thread error: {e}", exc_info=True)
+        logger.warning(f"Current threads: {active_count()}")
 
     return result
 
