@@ -63,7 +63,7 @@ You can also join the [discuss group](https://t.me/SCP_079_CHAT) if you are unsu
 - [Choose Language Tags](https://www.w3.org/International/questions/qa-choosing-language-tags)
 - [Language Subtag Registry](https://www.iana.org/assignments/language-subtag-registry/language-subtag-registry)
 
-# Copyright & License
+## Copyright & License
 
 - Copyright (C) 2019-2021 SCP-079 <https://scp-079.org>
 - Licensed under the terms of the [GNU General Public License v3](LICENSE).
