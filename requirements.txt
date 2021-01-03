@@ -3,7 +3,7 @@ async-lru==1.0.2
 distro==1.5.0
 psutil==5.8.0
 pyaes==1.6.1
-Pyrogram==1.1.7
+Pyrogram==1.1.8
 PySocks==1.7.1
 pytz==2020.5
 PyYAML==5.3.1
