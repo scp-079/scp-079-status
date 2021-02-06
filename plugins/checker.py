@@ -63,6 +63,8 @@ def check_basic(values: dict, broken: bool) -> str:
     for key in values:
         if key == "bot_token" and values[key] in {"", "[DATA EXPUNGED]"}:
             result += f"[ERROR] [basic] {key} - please fill a valid token\n"
+        elif key == "ipv6" and values[key] not in {False, True}:
+            result += f"[ERROR] [basic] {key} - please fill a valid boolean value\n"
         elif key == "prefix" and (isinstance(values[key], str) or not values[key]):
             result += f"[ERROR] [basic] {key} - please fill a valid command prefix list\n"
 

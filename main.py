@@ -40,6 +40,7 @@ renew()
 # Config session
 app = Client(
     session_name="bot",
+    ipv6=glovar.ipv6,
     bot_token=glovar.bot_token,
     workdir=glovar.SESSION_DIR_PATH,
     config_file=glovar.CONFIG_PATH,

@@ -21,7 +21,7 @@ import pickle
 from configparser import RawConfigParser
 from os.path import exists
 from threading import Lock
-from typing import Dict, List
+from typing import Dict, List, Union
 
 from yaml import safe_load
 
@@ -60,6 +60,7 @@ creator_id: int = 0
 
 # [basic]
 bot_token: str = ""
+ipv6: Union[bool, str] = "False"
 prefix: List[str] = []
 prefix_str: str = "/!"
 
@@ -81,23 +82,25 @@ try:
     config.read(CONFIG_PATH)
 
     # [auth]
-    creator_id = int(config["auth"].get("creator_id", fallback=str(creator_id)))
+    creator_id = int(config.get("auth", "creator_id", fallback=str(creator_id)))
 
     # [basic]
-    bot_token = config["basic"].get("bot_token", fallback=bot_token)
-    prefix = [p for p in list(config["basic"].get("prefix", prefix_str)) if p]
+    bot_token = config.get("basic", "bot_token", fallback=bot_token)
+    ipv6 = config.get("basic", "ipv6", fallback=ipv6)
+    ipv6 = eval(ipv6)
+    prefix = [p for p in list(config.get("basic", "prefix", fallback=prefix_str)) if p]
 
     # [channels]
-    critical_channel_id = int(config["channels"].get("critical_channel_id", fallback=str(critical_channel_id)))
+    critical_channel_id = int(config.get("channels", "critical_channel_id", fallback=str(critical_channel_id)))
 
     # [custom]
-    format_date = config["custom"].get("format_date", fallback=format_date)
-    format_time = config["custom"].get("format_time", fallback=format_time)
-    interval = int(config["custom"].get("interval", fallback=str(interval)))
+    format_date = config.get("custom", "format_date", fallback=format_date)
+    format_time = config.get("custom", "format_time", fallback=format_time)
+    interval = int(config.get("custom", "interval", fallback=str(interval)))
     manual_link = config.get("custom", "manual_link", fallback=manual_link)
 
     # [language]
-    lang = config["language"].get("lang", fallback=lang)
+    lang = config.get("language", "lang", fallback=lang)
 
     # [flag]
     broken = False
@@ -113,6 +116,7 @@ check_all(
         },
         "basic": {
             "bot_token": bot_token,
+            "ipv6": ipv6,
             "prefix": prefix
         },
         "channels": {
@@ -165,7 +169,7 @@ sender: str = "STATUS"
 
 updating: bool = False
 
-version: str = "0.1.5"
+version: str = "0.1.6"
 
 # Load data from TXT file
 
