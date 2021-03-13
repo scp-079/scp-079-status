@@ -49,6 +49,7 @@ With this program, you can easily create a bot to monitor your Linux server's st
 - `dictionary.dic` : Project's dictionary
 - `LICENSE` : GPLv3
 - `main.py` : Start here
+- `pip.sh` : Script for updating dependencies
 - `README.md` : This file
 - `requirements.txt` : Managed by pip
 
