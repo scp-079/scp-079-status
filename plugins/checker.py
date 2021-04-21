@@ -67,6 +67,8 @@ def check_basic(values: dict, broken: bool) -> str:
             result += f"[ERROR] [basic] {key} - please fill a valid boolean value\n"
         elif key == "prefix" and (isinstance(values[key], str) or not values[key]):
             result += f"[ERROR] [basic] {key} - please fill a valid command prefix list\n"
+        elif key == "restart" and (values[key] > 23 or values[key] < 0):
+            result += f"[ERROR] [basic] {key} - please fill a valid integer between 0 and 23\n"
 
         if not broken or not result:
             continue

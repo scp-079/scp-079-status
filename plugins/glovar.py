@@ -20,6 +20,7 @@ import logging
 import pickle
 from configparser import RawConfigParser
 from os.path import exists
+from random import randint
 from threading import Lock
 from typing import Dict, List, Union
 
@@ -35,6 +36,7 @@ LOG_PATH = "data/log"
 PICKLE_BACKUP_PATH = "data/pickle/backup"
 PICKLE_PATH = "data/pickle"
 REPORT_PATH = "data/config/report.txt"
+RESTART_PATH = "data/config/restart.txt"
 SESSION_DIR_PATH = "data/session"
 SESSION_PATH = "data/session/bot.session"
 
@@ -63,6 +65,7 @@ bot_token: str = ""
 ipv6: Union[bool, str] = "False"
 prefix: List[str] = []
 prefix_str: str = "/!"
+restart: int = 19
 
 # [channels]
 critical_channel_id: int = 0
@@ -89,6 +92,7 @@ try:
     ipv6 = config.get("basic", "ipv6", fallback=ipv6)
     ipv6 = eval(ipv6)
     prefix = [p for p in list(config.get("basic", "prefix", fallback=prefix_str)) if p]
+    restart = int(config.get("basic", "restart", fallback=str(restart)))
 
     # [channels]
     critical_channel_id = int(config.get("channels", "critical_channel_id", fallback=str(critical_channel_id)))
@@ -117,7 +121,8 @@ check_all(
         "basic": {
             "bot_token": bot_token,
             "ipv6": ipv6,
-            "prefix": prefix
+            "prefix": prefix,
+            "restart": restart
         },
         "channels": {
             "critical_channel_id": critical_channel_id
@@ -169,7 +174,7 @@ sender: str = "STATUS"
 
 updating: bool = False
 
-version: str = "0.1.7"
+version: str = "0.1.8"
 
 # Load data from TXT file
 
@@ -178,6 +183,15 @@ if exists(REPORT_PATH):
         report_text = f.read()
 else:
     report_text = ""
+
+if exists(RESTART_PATH):
+    with open(RESTART_PATH, "r", encoding="utf-8") as f:
+        restart_text = f.read()
+        restart_text = restart_text.strip()
+else:
+    restart_text = str(randint(4, 14))
+    with open(RESTART_PATH, "w", encoding="utf-8") as f:
+        f.write(restart_text)
 
 # Load data from pickle
 
