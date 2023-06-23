@@ -1,5 +1,5 @@
 # SCP-079-STATUS - Check Linux server status
-# Copyright (C) 2019-2021 SCP-079 <https://scp-079.org>
+# Copyright (C) 2019-2023 SCP-079 <https://scp-079.org>
 #
 # This file is part of SCP-079-STATUS.
 #
@@ -45,7 +45,7 @@ def start(client: Client, message: Message) -> bool:
     try:
         # Basic data
         cid = message.chat.id
-        mid = message.message_id
+        mid = message.id
 
         # Generate the text
         text = (f"{lang('commands')}{lang('colon')}\n\n"
@@ -73,7 +73,7 @@ def new(client: Client, message: Message) -> bool:
     try:
         # Basic data
         cid = message.chat.id
-        mid = message.message_id
+        mid = message.id
 
         # Check current message id
         if not glovar.message_id:
@@ -92,7 +92,7 @@ def new(client: Client, message: Message) -> bool:
                                  private=True, report=False)
 
         # Update the message id
-        glovar.message_id = result.message_id
+        glovar.message_id = result.id
         save("message_id")
 
         # Send the report message
@@ -118,7 +118,7 @@ def restart(client: Client, message: Message) -> bool:
     try:
         # Basic data
         cid = message.chat.id
-        mid = message.message_id
+        mid = message.id
 
         # Get command type
         command_type = get_command_type(message)
@@ -154,7 +154,7 @@ def send(client: Client, message: Message) -> bool:
     try:
         # Basic data
         cid = message.chat.id
-        mid = message.message_id
+        mid = message.id
 
         # Check current message id
         if glovar.message_id:
@@ -172,7 +172,7 @@ def send(client: Client, message: Message) -> bool:
                                  private=True, report=False)
 
         # Update the message id
-        glovar.message_id = result.message_id
+        glovar.message_id = result.id
         save("message_id")
 
         # Send the report message
@@ -198,7 +198,7 @@ def update(client: Client, message: Message) -> bool:
     try:
         # Basic data
         cid = message.chat.id
-        mid = message.message_id
+        mid = message.id
 
         # Get command type
         command_type = get_command_type(message)
@@ -239,7 +239,7 @@ def version(client: Client, message: Message) -> bool:
     try:
         # Basic data
         cid = message.chat.id
-        mid = message.message_id
+        mid = message.id
 
         # Get command type
         command_type = get_command_type(message)
@@ -260,7 +260,7 @@ def version(client: Client, message: Message) -> bool:
         git_date = get_readable_time(get_int(git_date), "%Y/%m/%d %H:%M:%S")
         git_hash = run("git rev-parse --short HEAD", stdout=PIPE, shell=True).stdout.decode()
         get_hash_link = f"https://github.com/scp-079/scp-079-{glovar.sender.lower()}/commit/{git_hash}"
-        command_date = get_readable_time(message.date, "%Y/%m/%d %H:%M:%S")
+        command_date = get_readable_time(int(message.date.timestamp()), "%Y/%m/%d %H:%M:%S")
 
         # Generate the text
         text = (f"{lang('project')}{lang('colon')}{code(glovar.sender)}\n"

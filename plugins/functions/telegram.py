@@ -1,5 +1,5 @@
 # SCP-079-STATUS - Check Linux server status
-# Copyright (C) 2019-2021 SCP-079 <https://scp-079.org>
+# Copyright (C) 2019-2023 SCP-079 <https://scp-079.org>
 #
 # This file is part of SCP-079-STATUS.
 #
@@ -20,6 +20,7 @@ import logging
 from typing import Iterable, Optional, Union
 
 from pyrogram import Client
+from pyrogram.enums import ParseMode
 from pyrogram.errors import (ChatAdminRequired, ButtonDataInvalid, ButtonUrlInvalid, ChannelInvalid, ChannelPrivate,
                              FloodWait, MessageDeleteForbidden, MessageIdInvalid, MessageNotModified, PeerIdInvalid)
 from pyrogram.types import InlineKeyboardMarkup, ReplyKeyboardMarkup, Message
@@ -59,7 +60,7 @@ def delete_messages_100(client: Client, cid: int, mids: Iterable[int]) -> Option
         mids = list(mids)
         result = client.delete_messages(chat_id=cid, message_ids=mids)
     except FloodWait as e:
-        logger.warning(f"Delete message in {cid} - Sleep for {e.x} second(s)")
+        logger.warning(f"Delete message in {cid} - Sleep for {e.value} second(s)")
         raise e
     except MessageDeleteForbidden:
         return False
@@ -83,7 +84,7 @@ def edit_message_text(client: Client, cid: int, mid: int, text: str,
             chat_id=cid,
             message_id=mid,
             text=text,
-            parse_mode="html",
+            parse_mode=ParseMode.HTML,
             disable_web_page_preview=True,
             reply_markup=markup
         )
@@ -118,13 +119,13 @@ def send_message(client: Client, cid: int, text: str, mid: int = None,
         result = client.send_message(
             chat_id=cid,
             text=text,
-            parse_mode="html",
+            parse_mode=ParseMode.HTML,
             disable_web_page_preview=True,
             reply_to_message_id=mid,
             reply_markup=markup
         )
     except FloodWait as e:
-        logger.warning(f"Send message to {cid} - Sleep for {e.x} second(s)")
+        logger.warning(f"Send message to {cid} - Sleep for {e.value} second(s)")
         raise e
     except (ButtonDataInvalid, ButtonUrlInvalid):
         logger.warning(f"Send message to {cid} - invalid markup: {markup}")
@@ -136,7 +137,7 @@ def send_message(client: Client, cid: int, text: str, mid: int = None,
     return result
 
 
-def send_report_message(secs: int, client: Client, cid: int, text: str, mid: int = None,
+def send_report_message(secs: int, client: Client, cid: int, text: str, mid: Optional[int] = None,
                         markup: InlineKeyboardMarkup = None) -> Optional[bool]:
     # Send a message that will be auto deleted to a chat
     result = None
@@ -153,7 +154,7 @@ def send_report_message(secs: int, client: Client, cid: int, text: str, mid: int
         if not result:
             return None
 
-        mid = result.message_id
+        mid = result.id
         mids = [mid]
         result = delay(secs, delete_messages, [client, cid, mids])
     except Exception as e:

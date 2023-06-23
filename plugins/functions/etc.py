@@ -1,5 +1,5 @@
 # SCP-079-STATUS - Check Linux server status
-# Copyright (C) 2019-2021 SCP-079 <https://scp-079.org>
+# Copyright (C) 2019-2023 SCP-079 <https://scp-079.org>
 #
 # This file is part of SCP-079-STATUS.
 #
@@ -136,7 +136,7 @@ def general_link(text: Union[int, str], link: str) -> str:
 
 
 def get_int(text: str) -> Optional[int]:
-    # Get a int from a string
+    # Get an int from a string
     result = None
 
     try:
@@ -256,7 +256,7 @@ def wait_flood(e: FloodWait) -> bool:
     result = False
 
     try:
-        result = sleep(e.x + uniform(0.5, 1.0)) or True
+        result = sleep(e.value + uniform(0.5, 1.0)) or True
     except Exception as e:
         logger.warning(f"Wait flood error: {e}", exc_info=True)
 

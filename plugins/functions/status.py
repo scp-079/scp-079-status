@@ -1,5 +1,5 @@
 # SCP-079-STATUS - Check Linux server status
-# Copyright (C) 2019-2021 SCP-079 <https://scp-079.org>
+# Copyright (C) 2019-2023 SCP-079 <https://scp-079.org>
 #
 # This file is part of SCP-079-STATUS.
 #
@@ -17,7 +17,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import logging
-from distro import linux_distribution
+import platform
 from os import getloadavg
 from platform import uname
 from socket import gethostname
@@ -38,7 +38,7 @@ def add_extra(e: FloodWait) -> bool:
     result = False
 
     try:
-        logger.warning(f"Sleep for {e.x} second(s)")
+        logger.warning(f"Sleep for {e.value} second(s)")
 
         if glovar.extra >= 2:
             return False
@@ -140,7 +140,7 @@ def get_cpu_usage_per(text: str) -> str:
 
         status = ""
 
-        for i, percent in enumerate(cpu_percent(percpu=True, interval=1)):
+        for i, percent in enumerate(cpu_percent(interval=1, percpu=True)):
             status += "\t" * 4 + f"{lang('core')}\t{i + 1}{lang('colon')}{code(f'{percent}%')}\n"
 
         if status:
@@ -265,8 +265,7 @@ def get_dist(text: str) -> str:
 
         if codename not in text:
             return result
-
-        status = " ".join(d for d in linux_distribution()[:-1])
+        status = " ".join(d for d in platform.linux_distribution()[:-1])
 
         result = result.replace(codename, status)
     except Exception as e:
@@ -636,7 +635,7 @@ def get_swap_used(text: str) -> str:
 
 
 def get_up_time(text: str) -> str:
-    # Get system up time
+    # Get system up-time
     result = text
 
     try:
@@ -646,7 +645,7 @@ def get_up_time(text: str) -> str:
             return result
 
         status = get_time_str(
-            secs=get_now() - boot_time(),
+            secs=get_now() - int(boot_time()),
             the_format=glovar.format_time
         )
 

@@ -1,5 +1,5 @@
 # SCP-079-STATUS - Check Linux server status
-# Copyright (C) 2019-2021 SCP-079 <https://scp-079.org>
+# Copyright (C) 2019-2023 SCP-079 <https://scp-079.org>
 #
 # This file is part of SCP-079-STATUS.
 #
@@ -93,7 +93,7 @@ def interval_sec_n(client: Client) -> bool:
             return False
 
         delete_message(client, glovar.critical_channel_id, glovar.message_id)
-        glovar.message_id = result.message_id
+        glovar.message_id = result.id
         save("message_id")
 
         result = True

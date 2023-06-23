@@ -1,5 +1,5 @@
 # SCP-079-STATUS - Check Linux server status
-# Copyright (C) 2019-2021 SCP-079 <https://scp-079.org>
+# Copyright (C) 2019-2023 SCP-079 <https://scp-079.org>
 #
 # This file is part of SCP-079-STATUS.
 #
@@ -39,11 +39,19 @@ renew()
 
 # Config session
 app = Client(
-    session_name="bot",
+    name="bot",
+    api_id=glovar.api_id,
+    api_hash=glovar.api_hash,
     ipv6=glovar.ipv6,
     bot_token=glovar.bot_token,
+    plugins={
+        "root": "plugins",
+        "include": [
+            "handlers.command"
+        ]
+    },
+    proxy=glovar.proxy,
     workdir=glovar.SESSION_DIR_PATH,
-    config_file=glovar.CONFIG_PATH,
     sleep_threshold=0
 )
 app.start()

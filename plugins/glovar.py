@@ -1,5 +1,5 @@
 # SCP-079-STATUS - Check Linux server status
-# Copyright (C) 2019-2021 SCP-079 <https://scp-079.org>
+# Copyright (C) 2019-2023 SCP-079 <https://scp-079.org>
 #
 # This file is part of SCP-079-STATUS.
 #
@@ -57,6 +57,15 @@ logger = logging.getLogger(__name__)
 # [flag]
 broken: bool = True
 
+# [pyrogram]
+api_id: int = 0
+api_hash: str = "[DATA EXPUNGED]"
+
+# [proxy]
+enabled: Union[bool, str] = "False"
+hostname: str = "127.0.0.1"
+port: int = 1080
+
 # [auth]
 creator_id: int = 0
 
@@ -83,6 +92,16 @@ try:
     not exists(CONFIG_PATH) and raise_error(f"{CONFIG_PATH} does not exists")
     config = RawConfigParser()
     config.read(CONFIG_PATH)
+
+    # [pyrogram]
+    api_id = int(config.get("pyrogram", "api_id", fallback=api_id))
+    api_hash = config.get("pyrogram", "api_hash", fallback=api_hash)
+
+    # [proxy]
+    enabled = config.get("proxy", "enabled", fallback=enabled)
+    enabled = eval(enabled)
+    hostname = config.get("proxy", "hostname", fallback=hostname)
+    port = int(config.get("proxy", "port", fallback=port))
 
     # [auth]
     creator_id = int(config.get("auth", "creator_id", fallback=str(creator_id)))
@@ -115,6 +134,15 @@ except Exception as e:
 # Check
 check_all(
     {
+        "pyrogram": {
+            "api_id": api_id,
+            "api_hash": api_hash
+        },
+        "proxy": {
+            "enabled": enabled,
+            "hostname": hostname,
+            "port": port
+        },
         "auth": {
             "creator_id": creator_id
         },
@@ -139,6 +167,16 @@ check_all(
     },
     broken
 )
+
+# Postprocess - [proxy]
+if enabled:
+    proxy = {
+        "hostname": hostname,
+        "port": port,
+        "scheme": "socks5"
+    }
+else:
+    proxy = None
 
 # Language Dictionary
 lang_dict: dict = {}

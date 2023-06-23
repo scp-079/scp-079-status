@@ -1,5 +1,5 @@
 # SCP-079-STATUS - Check Linux server status
-# Copyright (C) 2019-2021 SCP-079 <https://scp-079.org>
+# Copyright (C) 2019-2023 SCP-079 <https://scp-079.org>
 #
 # This file is part of SCP-079-STATUS.
 #
@@ -103,12 +103,12 @@ def version_0_0_9() -> bool:
         move_file("report.txt", "data/config/report.txt")
         move_file("log", "data/log/log")
 
-        for file in files("data"):
-            if file.startswith("."):
-                file = file[1:]
-                move_file(f"data/.{file}", f"data/pickle/backup/{file}")
+        for file_ in files("data"):
+            if file_.startswith("."):
+                file_ = file_[1:]
+                move_file(f"data/.{file_}", f"data/pickle/backup/{file_}")
             else:
-                move_file(f"data/{file}", f"data/pickle/{file}")
+                move_file(f"data/{file_}", f"data/pickle/{file_}")
 
         move_file("bot.session", "data/session/bot.session")
         remove_dir("tmp")

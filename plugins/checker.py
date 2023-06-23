@@ -1,5 +1,5 @@
 # SCP-079-STATUS - Check Linux server status
-# Copyright (C) 2019-2021 SCP-079 <https://scp-079.org>
+# Copyright (C) 2019-2023 SCP-079 <https://scp-079.org>
 #
 # This file is part of SCP-079-STATUS.
 #
@@ -18,6 +18,7 @@
 
 import logging
 from os.path import exists
+from typing import Dict, Union
 
 # Enable logging
 logger = logging.getLogger(__name__)
@@ -38,6 +39,44 @@ def check_all(values: dict, broken: bool) -> bool:
         return True
 
     raise_error(error)
+
+
+def check_pyrogram(values: Dict[str, Union[int, str]], broken: bool) -> str:
+    # Check all values in pyrogram section
+    result = ""
+
+    for key in values:
+        if key == "api_id" and values[key] <= 0:
+            result += f"[ERROR] [pyrogram] {key} - should be a positive integer\n"
+        elif key == "api_hash" and values[key] in {"", "[DATA EXPUNGED]"}:
+            result += f"[ERROR] [pyrogram] {key} - please fill something except [DATA EXPUNGED]\n"
+
+        if not broken or not result:
+            continue
+
+        raise_error(result)
+
+    return result
+
+
+def check_proxy(values: Dict[str, Union[bool, int, str]], broken: bool) -> str:
+    # Check all values in proxy section
+    result = ""
+
+    for key in values:
+        if key == "enabled" and values[key] not in {False, True}:
+            result += f"[ERROR] [proxy] {key} - please fill a valid boolean value\n"
+        elif key == "hostname" and values[key] in {"", "[DATA EXPUNGED]"}:
+            result += f"[ERROR] [proxy] {key} - please fill something except [DATA EXPUNGED]\n"
+        elif key == "port" and values[key] <= 0:
+            result += f"[ERROR] [proxy] {key} - should be a positive integer\n"
+
+        if not broken or not result:
+            continue
+
+        raise_error(result)
+
+    return result
 
 
 def check_auth(values: dict, broken: bool) -> str:
@@ -137,6 +176,6 @@ def check_language(values: dict, broken: bool) -> str:
 
 
 def raise_error(error: str):
-    error = "-" * 24 + f"\nBot refused to start because:\n" + "-" * 24 + f"\n{error}" + "-" * 24
+    error = "-" * 24 + "\nBot refused to start because:\n" + "-" * 24 + f"\n{error}" + "-" * 24
     logger.critical("\n" + error)
     raise SystemExit(error)
